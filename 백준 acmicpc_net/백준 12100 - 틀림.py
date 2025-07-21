@@ -1,6 +1,7 @@
 import copy
 
 # 입력 받기 백준 12100 "2048 (Easy)
+# 일부만 동작되는 코드, 어디 부분을 수정해야하는지 생각해 보세요.
 N = int(input())
 board = [list(map(int, input().split())) for _ in range(N)]
 
@@ -10,20 +11,20 @@ answer = 0
 # 한 줄을 왼쪽으로 밀고 합치는 함수
 def merge_left(row):
     new_row = []
-    before = 0  # 전에 본 숫자
+    prev = 0  # 전에 본 숫자
     merged = False  # 합쳐졌는지 체크
     for num in row:
         if num == 0:
             continue  # 0은 건너뛰기
-        if num == before and not merged:
+        if num == prev and not merged:
             # 같은 숫자이고 아직 합쳐진 적이 없다면
-            new_row[-1] = before * 2  # 마지막 숫자와 합치기
+            new_row[-1] = prev * 2  # 마지막 숫자와 합치기
             merged = True  # 이미 합쳐졌다고 표시
-            before = 0
+            prev = 0
         else:
             new_row.append(num)
             merged = False
-            before = num
+            prev = num
     # 0으로 길이 맞추기
     while len(new_row) < N:
         new_row.append(0)
