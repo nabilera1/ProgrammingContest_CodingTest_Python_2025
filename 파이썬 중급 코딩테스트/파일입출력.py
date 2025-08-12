@@ -5,8 +5,8 @@
 """
 현재 이 디렉토리 경로
 - 파이참 : ctrl + alt + f12
-C:\\Users\\user\\PycharmProjects\\codingTestPython\\코딩테스트학습
-C:/Users/user/PycharmProjects/codingTestPython/코딩테스트학습
+C:\\Users\\user\\PycharmProjects\\codingTestPython\\파이썬 중급 코딩테스트
+C:/Users/user/PycharmProjects/codingTestPython/파이썬 중급 코딩테스트
 단축키
 Ctrl + E : 최근 파일
 Alt + Home
