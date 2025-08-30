@@ -90,7 +90,7 @@ while True:
         break
 
     # 사용자 입력
-    guess = input("글자를 입력하세요: ").lower()
+    guess = input("한 문자 입력(알파벳) : ").lower()
     if guess in secret:
         correct += guess
     else:
