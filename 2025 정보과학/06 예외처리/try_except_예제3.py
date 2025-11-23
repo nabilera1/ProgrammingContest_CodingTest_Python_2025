@@ -3,19 +3,13 @@
 # 예외는 다음과 같이 파이썬 내장 클래스인 Exception 클래스를 상속하여 만들 수 있다.
 
 class MyError(Exception):
-    pass
-
+    def __str__(self):
+        return "허용되지 않는 별명입니다."
 
 def say_nick(nick):
     if nick == '바보':
         raise MyError()
     print(nick)
-
-
-class MyError(Exception):
-    def __str__(self):
-        return "허용되지 않는 별명입니다."
-
 
 try:
     say_nick("천사")
