@@ -1,4 +1,6 @@
-from game.sound import *
+# from game.sound import *
+# import game
+# game.render_test()
+# echo.echo_test()
+
 import game
-game.render_test()
-echo.echo_test()

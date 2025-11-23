@@ -1,0 +1,1139 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>캐글 대비 파이썬 · 판다스 중급 퀴즈 20제</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #020617;
+      --bg-card-inner: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-border: rgba(56, 189, 248, 0.3);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --text-strong: #f9fafb;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.6);
+      --shadow-inner: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
+      --shadow-glow: 0 0 35px rgba(56, 189, 248, 0.28);
+      --transition-fast: 0.18s ease-out;
+      --transition-slow: 0.32s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 20px 48px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 55%, #020617 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .header {
+      position: relative;
+      margin-bottom: 32px;
+      padding: 28px 24px;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.18), transparent 55%),
+                  #020617;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 22px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .chip {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb 0, #22c55e 50%, #16a34a 100%);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    }
+
+    .header-main {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-title-block h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+      color: var(--text-strong);
+    }
+
+    .header-title-block p {
+      margin: 0 0 2px;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .header-title-block p strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .header-badge {
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 12px;
+      color: var(--text-soft);
+      min-width: 180px;
+    }
+
+    .badge-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .badge-main {
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .badge-main strong {
+      color: var(--text-strong);
+      font-weight: 600;
+    }
+
+    .badge-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+      opacity: 0.9;
+    }
+
+    .intro {
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .intro ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+    }
+
+    .intro li {
+      margin-bottom: 3px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, rgba(51, 65, 85, 0.45), transparent 55%),
+                  var(--bg-card);
+      box-shadow: var(--shadow-soft), var(--shadow-inner);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 16px 16px 14px;
+      overflow: hidden;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-slow);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.10), transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transition-slow);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-3px) translateZ(0);
+      box-shadow: var(--shadow-glow);
+      border-color: rgba(56, 189, 248, 0.9);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .question {
+      font-size: 14px;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .question pre {
+      margin-top: 6px;
+      margin-bottom: 0;
+      padding: 7px 9px;
+      border-radius: 10px;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      overflow-x: auto;
+    }
+
+    .hint {
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .hint-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--accent);
+      padding-right: 5px;
+      border-right: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    details {
+      margin-top: 6px;
+      border-radius: 12px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+      border: 1px dashed rgba(148, 163, 184, 0.9);
+      padding: 8px 9px;
+      font-size: 13px;
+      transition: background var(--transition-slow), border-color var(--transition-slow), box-shadow var(--transition-fast);
+    }
+
+    details[open] {
+      border-style: solid;
+      border-color: rgba(56, 189, 248, 0.9);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 1), rgba(2, 6, 23, 0.98));
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .summary-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f9fafb 0, #38bdf8 55%, #0ea5e9 100%);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+    }
+
+    .summary-arrow {
+      font-size: 12px;
+      color: var(--text-soft);
+      opacity: 0.8;
+      transition: transform var(--transition-fast);
+    }
+
+    details[open] .summary-arrow {
+      transform: rotate(90deg);
+    }
+
+    .qa-body {
+      margin-top: 7px;
+      border-top: 1px solid rgba(51, 65, 85, 0.9);
+      padding-top: 6px;
+    }
+
+    .answer {
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: var(--text-strong);
+    }
+
+    .explanation {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .explanation code {
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 1px 4px;
+      border-radius: 4px;
+      border: 1px solid rgba(30, 64, 175, 0.9);
+    }
+
+    .footer {
+      margin-top: 28px;
+      font-size: 11px;
+      color: var(--text-soft);
+      text-align: right;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 20px 14px 36px;
+      }
+      .header {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <div class="header-top">
+      <span class="chip">
+        <span class="chip-dot"></span>
+        KAGGLE READY
+      </span>
+      <span>Python &amp; Pandas Quiz Set</span>
+    </div>
+    <div class="header-main">
+      <div class="header-title-block">
+        <h1>캐글 대비 파이썬 · 판다스 중급 퀴즈 20제</h1>
+        <p>파이썬 기초는 알고 있다는 전제로, <strong>실전 데이터 분석</strong>에서 자주 쓰는 문법과 판다스 패턴만 모았습니다.</p>
+        <p>각 문항은 <strong>문제 → 힌트 → (클릭 시) 정답+설명</strong> 구조입니다.</p>
+      </div>
+      <div class="header-badge">
+        <div class="badge-title">구성</div>
+        <div class="badge-main">
+          · Python 중급 문법 10문항<br>
+          · Pandas 실전 패턴 10문항
+        </div>
+        <div class="badge-sub">Hint로 먼저 생각해 보고, 정답/설명은 꼭 클릭해서 흐름까지 확인해 보세요.</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="intro">
+    <strong>학습 포인트</strong>
+    <ul>
+      <li>리스트/딕셔너리 내포, enumerate, zip, 정렬, 함수 정의 등 <strong>실무에서 자주 쓰는 Python 문법</strong></li>
+      <li>read_csv, 인덱싱, groupby, agg/transform, 결측치, 정렬, merge 같은 <strong>Pandas 기본기</strong></li>
+    </ul>
+  </section>
+
+  <section class="grid">
+    <!-- 1 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q1 · 리스트 내포 &amp; 조건</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        리스트 <code>nums = [1, 2, 3, 4, 5, 6]</code>에서<br>
+        <strong>짝수만 골라 제곱한 리스트</strong>를 한 줄짜리 리스트 내포로 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>[f(x) for x in ... if 조건]</code> 형태를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시: <code>[n**2 for n in nums if n % 2 == 0]</code>
+          </div>
+          <div class="explanation">
+            리스트 내포에서 <code>for</code> 뒤에 <code>if</code> 조건을 붙이면 해당 조건을 만족하는 원소만 선택할 수 있습니다.<br>
+            여기서는 <code>n % 2 == 0</code>으로 짝수만 선택하고, 각 원소에 <code>n**2</code>를 적용합니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 2 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q2 · enumerate 사용</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        리스트 <code>cols = ["age", "height", "weight"]</code>가 있을 때,<br>
+        <code>0-age</code>, <code>1-height</code>, <code>2-weight</code> 형태로 한 줄씩 출력하는 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>for i, col in enumerate(cols):</code> 패턴을 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>for i, col in enumerate(cols):
+    print(f"{i}-{col}")</code></pre>
+          </div>
+          <div class="explanation">
+            <code>enumerate(iterable)</code>는 (인덱스, 값) 튜플을 순회하게 해 줍니다.<br>
+            기본 인덱스 시작값은 0이며, <code>enumerate(cols, start=1)</code>처럼 시작값을 바꿀 수도 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 3 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q3 · zip으로 두 리스트 합치기</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        <code>keys = ["math", "english", "science"]</code>,<br>
+        <code>values = [90, 85, 92]</code>가 있을 때,<br>
+        <strong><code>{"math": 90, "english": 85, "science": 92}</code></strong> 딕셔너리를 한 줄로 만드는 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>dict(zip(keys, values))</code> 형태를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>scores = dict(zip(keys, values))</code>
+          </div>
+          <div class="explanation">
+            <code>zip(keys, values)</code>는 <code>("math", 90)</code> 같은 튜플들을 생성하고,<br>
+            <code>dict()</code>에 넣으면 이를 키-값 쌍으로 갖는 딕셔너리가 만들어집니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 4 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q4 · sorted와 key 인자</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        리스트 <code>words = ["banana", "apple", "cherry", "kiwi"]</code>를<br>
+        <strong>문자열 길이 기준 오름차순</strong>으로 정렬한 새로운 리스트를 만드는 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>sorted(words, key=len)</code> 또는 <code>lambda</code>를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시: <code>sorted_words = sorted(words, key=len)</code>
+          </div>
+          <div class="explanation">
+            <code>sorted</code>는 원본 리스트를 변경하지 않고 정렬된 새 리스트를 반환합니다.<br>
+            <code>key=len</code>은 각 원소에 <code>len()</code>을 적용한 값을 기준으로 정렬하겠다는 의미입니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 5 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q5 · 딕셔너리 내포</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        <code>nums = [1, 2, 3, 4]</code>가 있을 때,<br>
+        <strong>{1: 1, 2: 4, 3: 9, 4: 16}</strong>을 만드는 딕셔너리 내포를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>{k: v for ...}</code> 형태를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>squares = {n: n**2 for n in nums}</code>
+          </div>
+          <div class="explanation">
+            딕셔너리 내포는 <code>{키표현식: 값표현식 for ...}</code> 패턴입니다.<br>
+            각 n에 대해 키는 n, 값은 <code>n**2</code>를 주면 됩니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 6 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q6 · 함수 정의와 기본값</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        숫자 리스트와 스케일 계수를 받아,<br>
+        각 원소에 계수를 곱한 새 리스트를 반환하는 함수 <code>scale</code>을 작성하세요.<br>
+        계수의 기본값은 1.0으로 두세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>def scale(nums, factor=1.0):</code>를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>def scale(nums, factor=1.0):
+    return [x * factor for x in nums]</code></pre>
+          </div>
+          <div class="explanation">
+            기본 인자값은 <code>def 함수이름(매개변수=기본값)</code> 형태로 지정합니다.<br>
+            리스트 내포로 각 원소에 계수를 곱한 새 리스트를 간단하게 만들 수 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 7 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q7 · 리스트 슬라이싱</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        <code>data = [10, 20, 30, 40, 50, 60]</code>가 있을 때,<br>
+        가운데 <code>[20, 30, 40, 50]</code>만 잘라내는 슬라이싱을 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span>인덱스 1 이상, 5 미만 구간을 생각해 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>middle = data[1:5]</code>
+          </div>
+          <div class="explanation">
+            슬라이싱은 <code>리스트[시작:끝]</code>이며 끝 인덱스는 포함되지 않습니다.<br>
+            인덱스 1,2,3,4에 해당하는 원소만 잘려 나옵니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 8 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q8 · any / all</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        리스트 <code>scores = [70, 80, 95, 60]</code>가 모두 50점 이상인지 확인하는 한 줄 코드를 작성하세요.<br>
+        (결과는 True / False)
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>all(조건 for ...)</code> 패턴을 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시: <code>ok = all(s &gt;= 50 for s in scores)</code>
+          </div>
+          <div class="explanation">
+            <code>all(iterable)</code>은 모든 원소가 True면 True를 반환합니다.<br>
+            <code>s &gt;= 50 for s in scores</code>는 불리언 값들이 순서대로 만들어지는 제너레이터 표현식입니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 9 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q9 · 파일 읽기 (with 문)</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        <strong>"data.txt"</strong> 파일을 한 줄씩 읽어 화면에 출력하되,<br>
+        파일을 자동으로 닫아 주는 코드 패턴(<code>with</code> 문)을 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>with open(...) as f:</code> 구조를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>with open("data.txt", encoding="utf-8") as f:
+    for line in f:
+        print(line.strip())</code></pre>
+          </div>
+          <div class="explanation">
+            <code>with</code> 블록이 끝나면 파일이 자동으로 닫히므로 안전합니다.<br>
+            <code>line.strip()</code>으로 줄 끝의 줄바꿈 문자 등을 제거할 수 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 10 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q10 · 예외 처리</div>
+        <div class="pill">Python</div>
+      </div>
+      <div class="question">
+        사용자 입력을 <code>int</code>로 변환하려고 할 때,<br>
+        변환에 실패하면 "잘못된 입력"이라고 출력하는 예외 처리 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>try:</code> / <code>except ValueError:</code> 구조를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>s = input("숫자를 입력하세요: ")
+try:
+    n = int(s)
+    print("입력한 숫자:", n)
+except ValueError:
+    print("잘못된 입력")</code></pre>
+          </div>
+          <div class="explanation">
+            <code>int()</code> 변환이 실패하면 <code>ValueError</code>가 발생합니다.<br>
+            <code>try/except</code> 블록으로 예외를 잡아 사용자에게 적절한 메시지를 보여 줄 수 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 11 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q11 · read_csv와 head</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        "train.csv" 파일을 읽어 <code>df</code>라는 데이터프레임에 저장한 뒤,<br>
+        <strong>위에서 5행만</strong> 확인하는 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>pd.read_csv(...)</code>와 <code>df.head()</code>를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답:
+<pre><code>import pandas as pd
+
+df = pd.read_csv("train.csv")
+print(df.head(5))</code></pre>
+          </div>
+          <div class="explanation">
+            <code>pd.read_csv()</code>로 CSV를 데이터프레임으로 읽어 올 수 있습니다.<br>
+            <code>df.head(5)</code>는 위에서 5행만 보여 줍니다(기본값도 5행).
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 12 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q12 · info로 타입 확인</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        데이터프레임 <code>df</code>의<br>
+        <strong>열 별 데이터 타입, 결측치 개수, 전체 행 수</strong> 등을 한 번에 확인하는 메서드는 무엇인가요?<br>
+        (코드 한 줄로 작성하세요.)
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span>캐글 데이터셋을 처음 볼 때 가장 자주 쓰는 메서드입니다.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>df.info()</code>
+          </div>
+          <div class="explanation">
+            <code>df.info()</code>는 각 열 이름, 비결측(non-null) 개수, 데이터 타입, 전체 행 수를 출력해 줍니다.<br>
+            캐글에서 EDA(탐색적 데이터 분석)의 첫 단계로 자주 사용합니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 13 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q13 · describe로 기본 통계 확인</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        수치형 열들에 대해 <strong>평균, 표준편차, 최소값, 사분위수, 최대값</strong> 등의 요약 통계를 한 번에 보고 싶습니다.<br>
+        어떤 메서드를 사용하면 될까요? (코드 한 줄)
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span>기본 통계 요약(summary)을 뽑을 때 사용하는 메서드입니다.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>df.describe()</code>
+          </div>
+          <div class="explanation">
+            <code>df.describe()</code>는 기본적으로 수치형 열에 대한 통계 요약을 보여 줍니다.<br>
+            <code>df.describe(include="all")</code>처럼 범주형까지 포함해 볼 수도 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 14 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q14 · value_counts와 normalize</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        타깃 열 <code>"Survived"</code>의 각 값(0, 1)이<br>
+        전체에서 차지하는 비율(%)을 확인하려고 합니다.<br>
+        어떤 코드를 쓰면 될까요?
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>value_counts</code>에 <code>normalize=True</code> 옵션을 줘 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>df["Survived"].value_counts(normalize=True)</code>
+          </div>
+          <div class="explanation">
+            <code>value_counts()</code>는 기본적으로 개수를 세고,<br>
+            <code>normalize=True</code>를 주면 전체 대비 비율을 반환합니다.<br>
+            불균형 데이터 여부를 빠르게 확인할 때 유용합니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 15 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q15 · 결측치 개수 세기</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        데이터프레임 <code>df</code>에서<br>
+        각 열 별 결측치(null) 개수를 한 번에 확인하는 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>df.isnull().sum()</code> 패턴을 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>df.isnull().sum()</code>
+          </div>
+          <div class="explanation">
+            <code>df.isnull()</code>은 True/False 값을 가지는 데이터프레임을 만들고,<br>
+            <code>.sum()</code>을 한 번 더 적용하면 열 별 True(=결측치) 개수를 구할 수 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 16 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q16 · 조건에 맞는 행 필터링</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        <code>df</code>에서 "age"가 18세 이상이고, 동시에 "sex"가 "female"인 행만 남기고 싶습니다.<br>
+        불리언 인덱싱으로 한 줄 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span>두 조건은 <code>&amp;</code>로 묶고, 괄호를 꼭 써 주세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>f_adult = df[(df["age"] &gt;= 18) &amp; (df["sex"] == "female")]</code></pre>
+          </div>
+          <div class="explanation">
+            판다스에서 여러 조건을 묶을 때는 파이썬의 <code>and</code> 대신 <code>&amp;</code>를 사용합니다.<br>
+            각 조건은 반드시 괄호로 감싸야 합니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 17 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q17 · groupby와 집계</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        승객 데이터를 담은 <code>df</code>에서,<br>
+        "Pclass"별 평균 "Fare"를 구해 새로운 데이터프레임으로 만들고 싶습니다.<br>
+        어떤 코드를 써야 할까요?
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>df.groupby("Pclass")["Fare"].mean()</code>을 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>pclass_fare = df.groupby("Pclass")["Fare"].mean().reset_index()</code></pre>
+          </div>
+          <div class="explanation">
+            <code>groupby("Pclass")["Fare"].mean()</code>은 Pclass별 평균 Fare를 가진 Series를 반환합니다.<br>
+            <code>.reset_index()</code>를 하면 이를 작은 데이터프레임으로 바꿀 수 있습니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 18 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q18 · sort_values로 정렬</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        <code>df</code>를 "Fare" 기준 <strong>내림차순</strong>으로 정렬한 새 데이터프레임을 얻고 싶습니다.<br>
+        한 줄 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>df.sort_values("Fare", ascending=False)</code>를 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답: <code>df_sorted = df.sort_values("Fare", ascending=False)</code>
+          </div>
+          <div class="explanation">
+            <code>sort_values</code>는 특정 열을 기준으로 정렬합니다.<br>
+            <code>ascending=False</code>를 주면 내림차순 정렬이 됩니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 19 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q19 · 열 추가 (파생 변수)</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        <code>df</code>에 "FamilySize"라는 새 열을 추가하려고 합니다.<br>
+        정의는 <strong>부모·자녀 수("Parch") + 형제·배우자 수("SibSp") + 1(본인)</strong>입니다.<br>
+        한 줄 코드를 작성하세요.
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span>열 간 사칙연산으로 파생 변수를 만들 수 있습니다.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답:
+<pre><code>df["FamilySize"] = df["Parch"] + df["SibSp"] + 1</code></pre>
+          </div>
+          <div class="explanation">
+            판다스에서는 같은 길이의 시리즈끼리 사칙연산을 하면,<br>
+            각 행에 대해 원소별(element-wise) 계산이 이루어집니다.<br>
+            여기에 +1을 더해 본인을 포함한 가족 수를 계산합니다.
+          </div>
+        </div>
+      </details>
+    </article>
+
+    <!-- 20 -->
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Q20 · merge로 데이터 결합</div>
+        <div class="pill">Pandas</div>
+      </div>
+      <div class="question">
+        승객 기본 정보가 담긴 <code>df_passengers</code>와<br>
+        각 승객의 티켓 가격이 담긴 <code>df_fares</code>가 있습니다.<br>
+        두 데이터프레임 모두 "PassengerId" 열을 공통 키로 가지고 있을 때,<br>
+        이를 기준으로 <strong>왼쪽 조인(left join)</strong>하는 코드를 작성하세요.<br>
+        (왼쪽 기준: <code>df_passengers</code>)
+      </div>
+      <div class="hint">
+        <span class="hint-label">힌트</span>
+        <span><code>pd.merge(..., how="left", on="PassengerId")</code> 패턴을 떠올려 보세요.</span>
+      </div>
+      <details>
+        <summary>
+          <span class="summary-label">
+            <span class="summary-dot"></span>
+            정답 · 설명 보이기
+          </span>
+          <span class="summary-arrow">▶</span>
+        </summary>
+        <div class="qa-body">
+          <div class="answer">
+            정답 예시:
+<pre><code>df_merged = pd.merge(
+    df_passengers,
+    df_fares,
+    how="left",
+    on="PassengerId"
+)</code></pre>
+          </div>
+          <div class="explanation">
+            <code>pd.merge(left, right, how="left", on="키열")</code>은 SQL의 LEFT JOIN과 같습니다.<br>
+            왼쪽 데이터프레임의 모든 행을 유지하면서, 키가 일치하는 오른쪽 정보만 붙입니다.<br>
+            캐글에서 여러 CSV를 결합할 때 매우 자주 사용하는 패턴입니다.
+          </div>
+        </div>
+      </details>
+    </article>
+  </section>
+
+  <footer class="footer">
+    강의일 : 2025. 11. 17. 대구미래교육연구원 - 강사 : 대구과학고등학교 김동균
+  </footer>
+</div>
+</body>
+</html>
