@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 설치 완벽 가이드</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --warning-color: #e67e22;
+            --bg-color: #fdfdfd;
+            --text-color: #333;
+            --code-bg: #f4f4f4;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #eee;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 1rem;
+            margin-top: 0;
+        }
+
+        h3 {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .highlight-box {
+            background-color: #eeffff;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background-color: #fff3e0;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            line-height: 2rem;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d63384;
+        }
+
+        /* Quiz Styles */
+        .quiz-container { margin-top: 1rem; }
+        .quiz-item { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px dashed #ddd; }
+        .quiz-question { font-weight: bold; margin-bottom: 0.8rem; font-size: 1.1rem; }
+        .options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .options button:hover { background-color: #f8f9fa; border-color: var(--accent-color); }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+        }
+        .correct { background-color: #d4edda; color: #155724; }
+        .incorrect { background-color: #f8d7da; color: #721c24; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>파이썬 초보자를 위한 설치 가이드</h1>
+        <p>인터프리터부터 IDE(통합개발환경) 설정까지 한 번에 끝내기</p>
+    </header>
+
+    <section>
+        <h2>1. 파이썬 인터프리터 vs IDE (필수 상식)</h2>
+        <div class="highlight-box">
+            <p><strong>Q. 파이썬 공식 홈페이지에서 '인터프리터'를 꼭 먼저 설치해야 하나요?</strong></p>
+            <p><strong>A. 네, 그렇습니다. (강력 추천)</strong></p>
+        </div>
+        <p>초보자들이 가장 많이 하는 오해 중 하나가 "VS Code(편집기)만 설치하면 파이썬이 되겠지?"라고 생각하는 것입니다. 하지만 비유하자면 다음과 같습니다.</p>
+        <ul>
+            <li><strong>파이썬 인터프리터 (Python Interpreter):</strong> 자동차의 <strong>엔진</strong>입니다. 코드를 해석하고 실행하는 핵심 역할을 합니다.</li>
+            <li><strong>IDE (예: VS Code):</strong> 자동차의 <strong>핸들과 계기판</strong>입니다. 운전(코딩)을 편하게 하도록 도와주는 도구입니다.</li>
+        </ul>
+        <p>엔진 없이 핸들만 있다고 차가 굴러가지 않듯이, <strong>반드시 파이썬 인터프리터(엔진)를 먼저 설치해야 합니다.</strong></p>
+    </section>
+
+    <section>
+        <h2>2. 단계별 설치 방법 (Windows 기준)</h2>
+        <ol class="step-list">
+            <li>
+                <strong>파이썬 공식 홈페이지 접속</strong><br>
+                <a href="https://www.python.org" target="_blank">python.org</a>에 접속하여 [Downloads] 메뉴에서 최신 버전(예: Python 3.12.x)을 다운로드합니다.
+            </li>
+            <li>
+                <strong>설치 시 'Add Python to PATH' 체크 (★가장 중요)</strong><br>
+                설치 파일을 실행하면 나오는 첫 화면 하단에 <code style="background:#ffeb3b">Add Python.exe to PATH</code> 라는 체크박스가 있습니다.
+                <br>👉 <strong>이것을 반드시 체크해야 합니다.</strong> 체크하지 않으면 컴퓨터가 파이썬이 어디 있는지 찾지 못해 "명령을 찾을 수 없습니다"라는 오류가 발생합니다.
+            </li>
+            <li>
+                <strong>IDE(VS Code) 설치</strong><br>
+                <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a>에서 Visual Studio Code를 다운로드하여 설치합니다. 무료이며 가장 많이 쓰이는 에디터입니다.
+            </li>
+            <li>
+                <strong>VS Code에서 파이썬 확장팩 설치</strong><br>
+                VS Code를 실행하고 왼쪽 메뉴의 블록 모양 아이콘(Extensions)을 누른 뒤, 'Python'을 검색하여 Microsoft가 만든 확장팩을 설치합니다.
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>3. 초보자가 자주 하는 실수 & 해결책</h2>
+        <div class="warning-box">
+            <h3>⚠️ 1. PATH 설정을 잊어버렸어요!</h3>
+            <p>설치할 때 체크박스를 놓쳤다면, 파이썬을 삭제하고 다시 설치할 때 체크하는 것이 가장 빠르고 확실한 해결책입니다.</p>
+        </div>
+        
+        <div class="warning-box">
+            <h3>⚠️ 2. 파일 확장자를 안 적었어요!</h3>
+            <p>코드를 저장할 때 이름만 적으면 텍스트 파일(.txt)로 저장될 수 있습니다. 반드시 <code>hello.py</code> 처럼 뒤에 <strong>.py</strong>를 직접 적어주세요.</p>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ 3. 파일 이름이 random.py?</h3>
+            <p>파일 이름을 <code>random.py</code>, <code>turtle.py</code> 등 파이썬 기본 모듈과 똑같이 지으면 충돌이 발생해 실행되지 않습니다. <code>practice_01.py</code> 처럼 나만의 이름을 사용하세요.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. 이해도 점검 퀴즈 (5문제)</h2>
+        <div class="quiz-container" id="quiz-area">
+            </div>
+    </section>
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "파이썬 프로그래밍을 위해 가장 먼저 설치해야 하는 '엔진' 역할을 하는 것은?",
+            options: ["Visual Studio Code", "Chrome Browser", "Python Interpreter", "Windows Update"],
+            a: 2,
+            msg: "정답! IDE(편집기)를 쓰더라도 코드를 실행할 '인터프리터'가 반드시 먼저 설치되어야 합니다."
+        },
+        {
+            q: "파이썬 설치 프로그램 첫 화면에서 반드시 체크해야 나중에 오류가 없는 항목은?",
+            options: ["Install Now", "Add Python.exe to PATH", "Customize installation", "Install documentation"],
+            a: 1,
+            msg: "정답! 'Add Python to PATH'를 체크해야 컴퓨터 어디서든 파이썬을 실행할 수 있습니다."
+        },
+        {
+            q: "다음 중 파이썬 소스 코드 파일의 올바른 확장자는?",
+            options: [".txt", ".hwp", ".py", ".python"],
+            a: 2,
+            msg: "정답! 파이썬 파일은 반드시 '.py' 확장자로 저장해야 합니다."
+        },
+        {
+            q: "VS Code만 설치하고 파이썬 인터프리터를 설치하지 않았을 때 발생하는 상황은?",
+            options: ["코드가 아주 빠르게 실행된다.", "코드를 작성할 수는 있지만 실행(Run)은 되지 않는다.", "컴퓨터가 고장 난다.", "자동으로 파이썬이 설치된다."],
+            a: 1,
+            msg: "정답! VS Code는 편집기일 뿐이므로, 엔진(인터프리터)이 없으면 실행할 수 없습니다."
+        },
+        {
+            q: "초보자가 피해야 할 파일 이름 저장 방식은?",
+            options: ["my_study.py", "hello_world.py", "random.py (모듈 이름과 동일하게)", "test_01.py"],
+            a: 2,
+            msg: "정답! random.py 처럼 이미 있는 라이브러리 이름으로 파일을 만들면 충돌 오류가 발생합니다."
+        }
+    ];
+
+    const quizArea = document.getElementById('quiz-area');
+
+    questions.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-item';
+        
+        let btns = '';
+        item.options.forEach((opt, optIdx) => {
+            btns += `<button onclick="checkAnswer(${idx}, ${optIdx}, this)">${optIdx+1}. ${opt}</button>`;
+        });
+
+        div.innerHTML = `
+            <div class="quiz-question">Q${idx+1}. ${item.q}</div>
+            <div class="options">${btns}</div>
+            <div class="feedback" id="feed-${idx}"></div>
+        `;
+        quizArea.appendChild(div);
+    });
+
+    function checkAnswer(qIdx, userIdx, btn) {
+        const q = questions[qIdx];
+        const feedback = document.getElementById(`feed-${qIdx}`);
+        const allBtns = btn.parentElement.querySelectorAll('button');
+
+        // 버튼 비활성화
+        allBtns.forEach(b => b.disabled = true);
+
+        if(userIdx === q.a) {
+            feedback.innerHTML = "⭕ " + q.msg;
+            feedback.className = "feedback correct";
+            feedback.style.display = "block";
+            btn.style.backgroundColor = "#d4edda";
+            btn.style.borderColor = "#28a745";
+        } else {
+            feedback.innerHTML = "❌ 틀렸습니다. 정답은 " + (q.a+1) + "번입니다.<br>" + q.msg;
+            feedback.className = "feedback incorrect";
+            feedback.style.display = "block";
+            btn.style.backgroundColor = "#f8d7da";
+            btn.style.borderColor = "#dc3545";
+            allBtns[q.a].style.backgroundColor = "#d4edda"; // 정답 표시
+        }
+    }
+</script>
+
+</body>
+</html>

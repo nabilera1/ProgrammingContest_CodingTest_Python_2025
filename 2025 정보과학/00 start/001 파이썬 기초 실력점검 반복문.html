@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파이썬 코드 예측 퀴즈 (총 10문항)</title>
+<style>
+    body {
+        font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+    .container {
+        max-width: 700px;
+        margin: 0 auto;
+        padding-bottom: 80px;
+    }
+    h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+    .sub-title {
+        text-align: center;
+        color: #666;
+        margin-bottom: 40px;
+    }
+
+    /* 퀴즈 카드 스타일 */
+    .quiz-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+        overflow: hidden;
+        border: 1px solid #e1e4e8;
+    }
+    .quiz-header {
+        padding: 15px 20px;
+        font-weight: bold;
+        font-size: 1.1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    /* 난이도별 헤더 색상 */
+    .level-basic { background-color: #3498db; color: white; }
+    .level-hard { background-color: #e67e22; color: white; }
+
+    .quiz-body {
+        padding: 20px;
+    }
+
+    /* 코드 블록 스타일 */
+    pre {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 15px;
+        overflow-x: auto;
+        line-height: 1.5;
+        margin: 10px 0 20px 0;
+    }
+    .keyword { color: #c678dd; }
+    .func { color: #61afef; }
+    .number { color: #d19a66; }
+    .string { color: #98c379; }
+
+    /* 버튼 스타일 */
+    .btn-reveal {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background-color: #ecf0f1;
+        color: #2c3e50;
+        border: 2px solid #bdc3c7;
+        border-radius: 6px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .btn-reveal:hover {
+        background-color: #dfe6e9;
+        border-color: #b0b6bb;
+    }
+
+    /* 정답 영역 */
+    .answer-box {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        background-color: #e8f6f3;
+        border: 1px solid #a2d9ce;
+        border-radius: 6px;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    .answer-title {
+        color: #16a085;
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 1.1em;
+    }
+    .explanation {
+        font-size: 0.95em;
+        color: #555;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed #a2d9ce;
+        line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 파이썬 코드 결과 예측</h1>
+    <p class="sub-title">총 10문항 (기초 5문제 + 심화 5문제)</p>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-basic">문제 1. 조건문 (if-else)</div>
+        <div class="quiz-body">
+<pre>
+num = <span class="number">14</span>
+<span class="keyword">if</span> num % <span class="number">2</span> == <span class="number">0</span>:
+    <span class="func">print</span>(<span class="string">"A"</span>)
+<span class="keyword">else</span>:
+    <span class="func">print</span>(<span class="string">"B"</span>)
+
+<span class="keyword">if</span> num % <span class="number">3</span> == <span class="number">0</span>:
+    <span class="func">print</span>(<span class="string">"C"</span>)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(1)">👀 정답 확인하기</button>
+            <div id="ans-1" class="answer-box">
+                <span class="answer-title">정답: A</span>
+                <div class="explanation">
+                    14는 짝수이므로 첫 번째 if문에서 "A"가 출력됩니다.<br>
+                    14는 3의 배수가 아니므로 "C"는 출력되지 않습니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-basic">문제 2. 반복문 (for 누적 합)</div>
+        <div class="quiz-body">
+<pre>
+total = <span class="number">0</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="number">1</span>, <span class="number">5</span>):
+    total = total + i
+<span class="func">print</span>(total)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(2)">👀 정답 확인하기</button>
+            <div id="ans-2" class="answer-box">
+                <span class="answer-title">정답: 10</span>
+                <div class="explanation">
+                    range(1, 5)는 1, 2, 3, 4입니다.<br>
+                    이를 모두 더하면 1+2+3+4 = 10이 됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-basic">문제 3. while문과 break</div>
+        <div class="quiz-body">
+<pre>
+count = <span class="number">0</span>
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    count += <span class="number">1</span>
+    <span class="keyword">if</span> count > <span class="number">3</span>:
+        <span class="keyword">break</span>
+    <span class="func">print</span>(count)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(3)">👀 정답 확인하기</button>
+            <div id="ans-3" class="answer-box">
+                <span class="answer-title">정답:<br>1<br>2<br>3</span>
+                <div class="explanation">
+                    count가 1, 2, 3일 때는 출력되고, 4가 되는 순간 if 조건에 걸려 break로 반복문이 종료됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-basic">문제 4. continue 키워드</div>
+        <div class="quiz-body">
+<pre>
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="number">1</span>, <span class="number">6</span>):
+    <span class="keyword">if</span> i == <span class="number">3</span>:
+        <span class="keyword">continue</span>
+    <span class="func">print</span>(i, end=<span class="string">' '</span>)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(4)">👀 정답 확인하기</button>
+            <div id="ans-4" class="answer-box">
+                <span class="answer-title">정답: 1 2 4 5</span>
+                <div class="explanation">
+                    i가 3일 때 continue를 만나면 출력을 건너뜁니다.<br>
+                    따라서 3을 제외한 숫자가 가로로 출력됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-basic">문제 5. 다중 조건문 (elif)</div>
+        <div class="quiz-body">
+<pre>
+score = <span class="number">75</span>
+result = <span class="string">""</span>
+
+<span class="keyword">if</span> score >= <span class="number">90</span>:
+    result = <span class="string">"Best"</span>
+<span class="keyword">elif</span> score >= <span class="number">70</span> <span class="keyword">and</span> score < <span class="number">90</span>:
+    result = <span class="string">"Good"</span>
+<span class="keyword">else</span>:
+    result = <span class="string">"Bad"</span>
+
+<span class="func">print</span>(result)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(5)">👀 정답 확인하기</button>
+            <div id="ans-5" class="answer-box">
+                <span class="answer-title">정답: Good</span>
+                <div class="explanation">
+                    75점은 70점 이상 90점 미만에 해당하므로 "Good"이 출력됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-hard">문제 6. 중첩 반복문 (Nested Loop)</div>
+        <div class="quiz-body">
+<pre>
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="number">3</span>):
+    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="func">range</span>(<span class="number">2</span>):
+        <span class="func">print</span>(i + j, end=<span class="string">''</span>)
+<span class="func">print</span>()
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(6)">👀 정답 확인하기</button>
+            <div id="ans-6" class="answer-box">
+                <span class="answer-title">정답: 011223</span>
+                <div class="explanation">
+                    i=0 일 때: j=0(0+0=0), j=1(0+1=1) → 01<br>
+                    i=1 일 때: j=0(1+0=1), j=1(1+1=2) → 12<br>
+                    i=2 일 때: j=0(2+0=2), j=1(2+1=3) → 23<br>
+                    이어서 출력하면 011223 입니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-hard">문제 7. 리스트 슬라이싱 (Step)</div>
+        <div class="quiz-body">
+<pre>
+data = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>, <span class="number">60</span>]
+<span class="comment"># 인덱스 1부터 5직전까지, 2칸씩 띄워서</span>
+<span class="func">print</span>(data[<span class="number">1</span>:<span class="number">5</span>:<span class="number">2</span>])
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(7)">👀 정답 확인하기</button>
+            <div id="ans-7" class="answer-box">
+                <span class="answer-title">정답: [20, 40]</span>
+                <div class="explanation">
+                    인덱스 1은 20입니다.<br>
+                    2칸씩 건너뛰므로 다음은 인덱스 3인 40입니다.<br>
+                    인덱스 5(60)는 범위 끝이므로 포함되지 않습니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-hard">문제 8. 함수와 리턴값</div>
+        <div class="quiz-body">
+<pre>
+<span class="keyword">def</span> <span class="func">calc</span>(n):
+    <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">0</span>:
+        <span class="keyword">return</span> n // <span class="number">2</span>
+    <span class="keyword">else</span>:
+        <span class="keyword">return</span> n + <span class="number">1</span>
+
+<span class="func">print</span>(calc(<span class="number">10</span>) + calc(<span class="number">5</span>))
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(8)">👀 정답 확인하기</button>
+            <div id="ans-8" class="answer-box">
+                <span class="answer-title">정답: 11</span>
+                <div class="explanation">
+                    calc(10): 짝수이므로 10 // 2 = 5 반환<br>
+                    calc(5): 홀수이므로 5 + 1 = 6 반환<br>
+                    최종: 5 + 6 = 11
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-hard">문제 9. 문자열 조작</div>
+        <div class="quiz-body">
+<pre>
+text = <span class="string">"Hello World"</span>
+new_text = text.replace(<span class="string">"o"</span>, <span class="string">""</span>)
+<span class="func">print</span>(new_text)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(9)">👀 정답 확인하기</button>
+            <div id="ans-9" class="answer-box">
+                <span class="answer-title">정답: Hell Wrld</span>
+                <div class="explanation">
+                    replace("o", "")는 소문자 'o'를 빈 문자열로 대체(삭제)합니다.<br>
+                    따라서 "Hello World"에서 'o'가 모두 빠진 "Hell Wrld"가 됩니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="quiz-header level-hard">문제 10. 리스트와 조건문 결합</div>
+        <div class="quiz-body">
+<pre>
+result = []
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="number">10</span>):
+    <span class="keyword">if</span> i % <span class="number">3</span> == <span class="number">0</span> <span class="keyword">and</span> i != <span class="number">0</span>:
+        result.append(i)
+<span class="func">print</span>(result)
+</pre>
+            <button class="btn-reveal" onclick="toggleAnswer(10)">👀 정답 확인하기</button>
+            <div id="ans-10" class="answer-box">
+                <span class="answer-title">정답: [3, 6, 9]</span>
+                <div class="explanation">
+                    0부터 9까지 숫자 중,<br>
+                    1) 3의 배수이면서 (i % 3 == 0)<br>
+                    2) 0은 아닌 (i != 0)<br>
+                    숫자만 리스트에 추가하므로 3, 6, 9가 담깁니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleAnswer(id) {
+        var x = document.getElementById("ans-" + id);
+        var btn = event.target;
+
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            btn.innerText = "👀 정답 확인하기";
+            btn.style.backgroundColor = "#ecf0f1";
+            btn.style.color = "#2c3e50";
+        } else {
+            x.style.display = "block";
+            btn.innerText = "닫기";
+            btn.style.backgroundColor = (id <= 5) ? "#3498db" : "#e67e22"; // 난이도별 색상 유지
+            btn.style.color = "white";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 & PyCharm 설치 가이드 (최신 통합본)</title>
+    <style>
+        :root {
+            --primary-color: #21D789;
+            --primary-dark: #000000;
+            --accent-color: #3e88f7;
+            --warning-bg: #fff3cd;
+            --warning-text: #856404;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        body { font-family: 'Pretendard', sans-serif; line-height: 1.6; color: var(--text-main); background-color: var(--bg-color); margin: 0; padding: 0; }
+        .container { max-width: 850px; margin: 0 auto; padding: 3rem 1.5rem; }
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 2px solid #eee; }
+        header h1 { color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; }
+        header h1 span { color: var(--primary-color); }
+        .badge-new { background-color: #21D789; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; vertical-align: middle; margin-left: 8px; }
+        section { background: var(--card-bg); border-radius: 16px; padding: 2.5rem; margin-bottom: 2.5rem; box-shadow: var(--shadow); border: 1px solid #f0f0f0; }
+        h2 { border-left: 6px solid var(--primary-color); padding-left: 1rem; color: var(--primary-dark); margin-top: 0; font-size: 1.6rem; }
+        .step-list { list-style: none; padding: 0; counter-reset: step-counter; }
+        .step-list li { position: relative; padding-left: 4rem; margin-bottom: 2.5rem; }
+        .step-list li::before { counter-increment: step-counter; content: counter(step-counter); position: absolute; left: 0; top: 0; width: 2.8rem; height: 2.8rem; background-color: var(--primary-dark); color: var(--primary-color); border-radius: 50%; text-align: center; line-height: 2.8rem; font-weight: bold; font-size: 1.2rem; }
+        .step-title { font-weight: 800; font-size: 1.3rem; display: block; margin-bottom: 0.8rem; }
+        .check-point { background-color: #e8f5e9; border: 1px solid #c8e6c9; color: #1b5e20; padding: 1.2rem; border-radius: 8px; margin-top: 0.8rem; font-weight: 500; }
+        .alert-box { background-color: var(--warning-bg); border-left: 5px solid #ffc107; color: var(--warning-text); padding: 1.5rem; border-radius: 8px; margin-top: 1rem; }
+        .alert-title { font-weight: bold; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem; }
+        code { background: #f1f3f5; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Fira Code', monospace; color: #e91e63; font-weight: bold; }
+
+        /* Quiz CSS */
+        .quiz-item { border-bottom: 1px dashed #ddd; padding: 2rem 0; }
+        .quiz-item:last-child { border-bottom: none; }
+        .quiz-q { font-weight: bold; font-size: 1.15rem; margin-bottom: 1.2rem; }
+        .quiz-options { display: grid; gap: 0.8rem; }
+        .quiz-options button { display: block; width: 100%; padding: 12px 16px; border: 1px solid #dee2e6; background: white; border-radius: 8px; text-align: left; cursor: pointer; transition: all 0.2s ease; font-size: 1rem; }
+        .quiz-options button:hover { background-color: #f8f9fa; border-color: var(--primary-color); transform: translateX(5px); }
+        .feedback { margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; font-weight: bold; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        .feedback.correct { background: #d1e7dd; color: #0f5132; }
+        .feedback.incorrect { background: #f8d7da; color: #842029; }
+        a { color: var(--accent-color); text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>파이썬 & <span>PyCharm</span> 설치 가이드 <span class="badge-new">NEW 통합버전</span></h1>
+        <p>복잡한 구분 없이, 버튼 하나로 설치 끝! (2026 업데이트)</p>
+    </header>
+
+    <section>
+        <h2>1. 설치 전 필수 상식</h2>
+        <p>파이썬 프로그래밍을 하려면 <strong>'엔진(파이썬)'</strong>과 <strong>'운전석(파이참)'</strong>을 각각 설치해야 합니다.</p>
+    </section>
+
+    <section>
+        <h2>2. 단계별 설치 방법</h2>
+        <ol class="step-list">
+            <li>
+                <span class="step-title">1단계: 파이썬 엔진 설치 (필수!)</span>
+                <a href="https://www.python.org" target="_blank">python.org</a>에서 최신 파이썬 다운로드
+                <div class="check-point">
+                    ⚠️ <strong>중요:</strong> 설치 화면 하단의 <code>Add Python.exe to PATH</code> 체크 필수!
+                </div>
+            </li>
+            <li>
+                <span class="step-title">2단계: PyCharm 다운로드 (통합 버전)</span>
+                <a href="https://www.jetbrains.com/pycharm/download/" target="_blank">JetBrains 공식 홈페이지</a>에서 <strong>[Download .exe]</strong> 클릭
+                <div class="check-point" style="background-color: #f5f5f5; color: #333; border-color: #ddd;">
+                    💡 문구 확인: <em>"Free forever, plus one month of Pro included"</em>
+                </div>
+            </li>
+            <li>
+                <span class="step-title">3단계: 설치 및 실행</span>
+                [Next]만 눌러서 설치 완료
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>3. 🚨 "체험판(Trial)" 경고가 떴나요?</h2>
+        <div class="alert-box">
+            <div class="alert-title">📢 학생 여러분, 안심하세요!</div>
+            <p>
+                30일 동안은 유료 기능(Pro) 체험 기간이며, 기간 종료 후 자동으로 <strong>'평생 무료 버전(Community Edition)'</strong>으로 전환됩니다.
+                결제되지 않으니 안심하고 사용하세요.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. 핵심 정리 퀴즈 (5문제)</h2>
+        <div id="quiz-area"></div>
+    </section>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 + 파이참 설치 가이드 (최신 통합본)</title>
+    <style>
+        :root {
+            --primary-color: #21D789; /* PyCharm Green */
+            --primary-dark: #000000;
+            --accent-color: #3e88f7;
+            --warning-bg: #fff3cd;
+            --warning-text: #856404;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        header h1 {
+            color: var(--primary-dark);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        header h1 span {
+            color: var(--primary-color);
+        }
+
+        .badge-new {
+            background-color: #21D789;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+
+        section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #f0f0f0;
+        }
+
+        h2 {
+            border-left: 6px solid var(--primary-color);
+            padding-left: 1rem;
+            color: var(--primary-dark);
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        /* Step List Styling */
+        .step-list {
+            list-style: none;
+            padding: 0;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 4rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .step-list li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.8rem;
+            height: 2.8rem;
+            background-color: var(--primary-dark);
+            color: var(--primary-color);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2.8rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step-title {
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Highlight Boxes */
+        .check-point {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            color: #1b5e20;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            font-weight: 500;
+        }
+
+        .alert-box {
+            background-color: var(--warning-bg);
+            border-left: 5px solid #ffc107;
+            color: var(--warning-text);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .alert-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #f1f3f5;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            color: #e91e63;
+            font-weight: bold;
+        }
+
+        /* Quiz UI */
+        .quiz-item {
+            border-bottom: 1px dashed #ddd;
+            padding: 2rem 0;
+        }
+        .quiz-item:last-child { border-bottom: none; }
+
+        .quiz-q {
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .quiz-options button {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .quiz-options button:hover {
+            background-color: #f8f9fa;
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            font-weight: bold;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct { background: #d1e7dd; color: #0f5132; }
+        .feedback.incorrect { background: #f8d7da; color: #842029; }
+
+        a { color: var(--accent-color); text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>파이썬 & <span>PyCharm</span> 설치 가이드 <span class="badge-new">NEW 통합버전</span></h1>
+        <p>복잡한 구분 없이, 버튼 하나로 설치 끝! (2026 업데이트)</p>
+    </header>
+
+    <section>
+        <h2>1. 설치 전 필수 상식</h2>
+        <p>
+            파이썬 프로그래밍을 하려면 두 가지가 필요합니다.
+            자동차에 비유하자면 <strong>'엔진(파이썬)'</strong>과 <strong>'운전석(파이참)'</strong>을 각각 설치해야 합니다.
+        </p>
+    </section>
+
+    <section>
+        <h2>2. 단계별 설치 방법</h2>
+        <ol class="step-list">
+            <li>
+                <span class="step-title">1단계: 파이썬 엔진 설치 (필수!)</span>
+                <a href="https://www.python.org" target="_blank">python.org</a>에서 최신 파이썬을 다운로드합니다.
+                <div class="check-point">
+                    ⚠️ <strong>중요:</strong> 설치 첫 화면 맨 아래에 있는<br>
+                    <code>Add Python.exe to PATH</code> 체크박스를 반드시 선택하세요! (이걸 안 하면 실행이 안 됩니다.)
+                </div>
+            </li>
+            <li>
+                <span class="step-title">2단계: PyCharm 다운로드 (통합 버전)</span>
+                <a href="https://www.jetbrains.com/pycharm/download/" target="_blank">JetBrains 공식 홈페이지</a>로 이동합니다.<br>
+                이제 복잡하게 무료 버전을 찾을 필요가 없습니다. 화면에 보이는 <strong>[Download .exe]</strong> 버튼을 바로 누르세요.
+
+                <div class="check-point" style="background-color: #f5f5f5; color: #333; border-color: #ddd;">
+                    💡 <strong>확인할 문구:</strong><br>
+                    다운로드 버튼 아래에 <em>"Free forever, plus one month of Pro included"</em>라고 적혀있다면 맞는 파일입니다.
+                </div>
+            </li>
+            <li>
+                <span class="step-title">3단계: 설치 및 실행</span>
+                다운로드한 파일을 실행하여 설치를 진행합니다. (설정은 건드리지 말고 [Next]만 누르세요.)
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>3. 🚨 "체험판(Trial)" 경고가 떴나요?</h2>
+        <p>설치 후 실행했을 때 <strong>"30-day Pro Trial"</strong>이라는 문구를 보고 당황하지 마세요.</p>
+
+        <div class="alert-box">
+            <div class="alert-title">📢 학생 여러분, 안심하세요! 돈 안 나갑니다.</div>
+            <p>
+                1. 이 프로그램은 첫 30일 동안 유료 기능(Pro)을 무료로 체험시켜 줍니다.<br>
+                2. <strong>30일이 지나면?</strong> 자동으로 <strong>'평생 무료 버전(Community Edition)'</strong>으로 전환됩니다.<br>
+                3. 결제 정보를 입력하지 않았으니 돈이 결제될 일은 절대 없습니다.<br>
+                👉 즉, <strong>경고 창이 떠도 그냥 사용하시면 됩니다.</strong>
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. 핵심 정리 퀴즈 (5문제)</h2>
+        <div id="quiz-area">
+            </div>
+    </section>
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "PyCharm 공식 홈페이지에서 다운로드할 때 올바른 행동은?",
+            options: ["반드시 스크롤을 내려서 숨겨진 파일을 찾는다.", "화면에 보이는 통합 [Download] 버튼을 누른다.", "반드시 결제를 먼저 해야 한다.", "이메일 주소를 입력해야만 다운로드된다."],
+            a: 1,
+            desc: "최신 버전은 통합되어 있으므로 보이는 버튼을 바로 누르면 됩니다."
+        },
+        {
+            q: "설치 후 '30일 체험판(Trial)'이라는 문구가 떴을 때 올바른 대처법은?",
+            options: ["즉시 프로그램을 삭제한다.", "부모님께 결제해달라고 조른다.", "당황하지 않고 그냥 쓴다. (30일 뒤 무료 전환)", "해킹된 것이니 신고한다."],
+            a: 2,
+            desc: "30일 후 자동으로 무료 버전(Community) 기능으로 전환되므로 걱정 없이 사용하면 됩니다."
+        },
+        {
+            q: "파이참(PyCharm)을 설치하기 전에 '반드시' 먼저 설치해야 하는 것은?",
+            options: ["Chrome 브라우저", "카카오톡", "Python 인터프리터 (파이썬 엔진)", "MS 워드"],
+            a: 2,
+            desc: "자동차에 엔진이 필요하듯, 파이참을 돌리려면 파이썬이 먼저 설치되어 있어야 합니다."
+        },
+        {
+            q: "파이썬 설치 첫 화면에서 꼭 체크해야 하는 옵션은?",
+            options: ["Add Python.exe to PATH", "Install Now", "Uninstall", "Documentation"],
+            a: 0,
+            desc: "PATH에 추가해야 컴퓨터가 파이썬 명령어를 어디서든 인식할 수 있습니다."
+        },
+        {
+            q: "다음 중 사실이 *아닌* 것은?",
+            options: ["파이참은 파이썬 전용 도구다.", "파이썬 파일을 저장할 때 확장자는 .py다.", "파이참 설치 시 반드시 신용카드를 등록해야 한다.", "파이참은 코드 자동 완성 기능이 있다."],
+            a: 2,
+            desc: "파이참 무료 사용(또는 체험판)에는 신용카드 정보가 전혀 필요하지 않습니다."
+        }
+    ];
+
+    const quizArea = document.getElementById('quiz-area');
+
+    questions.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-item';
+
+        let btns = '';
+        item.options.forEach((opt, optIdx) => {
+            btns += `<button onclick="checkAnswer(${idx}, ${optIdx}, this)">${optIdx+1}. ${opt}</button>`;
+        });
+
+        div.innerHTML = `
+            <div class="quiz-q">Q${idx+1}. ${item.q}</div>
+            <div class="quiz-options">${btns}</div>
+            <div class="feedback" id="feed-${idx}"></div>
+        `;
+        quizArea.appendChild(div);
+    });
+
+    function checkAnswer(qIdx, userChoice, btnElement) {
+        const feedback = document.getElementById(`feed-${qIdx}`);
+        const q = questions[qIdx];
+        const allBtns = btnElement.parentElement.querySelectorAll('button');
+
+        // Disable all buttons
+        allBtns.forEach(b => b.disabled = true);
+
+        if (userChoice === q.a) {
+            feedback.innerHTML = `⭕ 정답입니다! <br> ${q.desc}`;
+            feedback.className = "feedback correct";
+            feedback.style.display = "block";
+            btnElement.style.background = "#d1e7dd";
+            btnElement.style.borderColor = "#0f5132";
+        } else {
+            feedback.innerHTML = `❌ 틀렸습니다. 정답은 ${q.a+1}번입니다. <br> ${q.desc}`;
+            feedback.className = "feedback incorrect";
+            feedback.style.display = "block";
+            btnElement.style.background = "#f8d7da";
+            btnElement.style.borderColor = "#842029";
+            // Highlight correct answer
+            allBtns[q.a].style.background = "#d1e7dd";
+            allBtns[q.a].style.borderColor = "#0f5132";
+        }
+    }
+</script>
+
+</body>
+</html>

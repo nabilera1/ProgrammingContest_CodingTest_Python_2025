@@ -1,4 +1,4 @@
-# main.py
+# main3.py
 import mymath   # mymath 모듈 불러오기
 
 print(mymath.add(3, 4))   # 7
