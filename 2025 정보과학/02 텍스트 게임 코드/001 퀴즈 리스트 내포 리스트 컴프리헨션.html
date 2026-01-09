@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 리스트 내포 마스터 퀴즈</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --error: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .desc {
+            color: #64748b;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .question-num {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: inline-block;
+            background: #e0e7ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Menlo', 'Monaco', monospace;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: #f1f5f9;
+            border: 2px solid transparent;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: var(--text);
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: #e2e8f0;
+        }
+
+        /* 정답/오답 스타일 */
+        .option-btn.correct {
+            background-color: #d1fae5;
+            border-color: var(--success);
+            color: #065f46;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #fee2e2;
+            border-color: var(--error);
+            color: #991b1b;
+            opacity: 0.7;
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f9ff;
+            border-left: 5px solid var(--primary);
+            border-radius: 4px;
+            display: none; /* 처음엔 숨김 */
+            animation: fadeIn 0.5s;
+        }
+
+        .explanation h4 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hint-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+        .hint-text {
+            display: none;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🐍 Python 리스트 내포 퀴즈</h1>
+        <p class="desc">총 10문제 / 클릭해서 정답을 확인하세요.</p>
+    </header>
+
+    <div class="quiz-card" id="q1">
+        <span class="question-num">Q1. 기본 문법</span>
+        <div class="question-text">다음 for 반복문과 동일한 결과를 만드는 리스트 내포 코드는?</div>
+        <pre>numbers = []
+for i in range(5):
+    numbers.append(i * 2)</pre>
+        <button class="hint-btn" onclick="toggleHint('h1')">💡 힌트 보기</button>
+        <p id="h1" class="hint-text">기본 형태는 [표현식 for 항목 in 반복가능객체] 입니다.</p>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp1')">[i * 2 for i in range(5)]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp1')">[range(5) for i * 2]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp1')">[i for i in range(5) * 2]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp1')">(i * 2 for i in range(5))</button>
+        </div>
+        <div class="explanation" id="exp1">
+            <h4>정답입니다! 👏</h4>
+            <p>반복되는 변수 i에 대해 i * 2 연산을 수행하여 리스트를 생성하는 올바른 문법입니다. ()를 쓰면 제너레이터가 됩니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q2">
+        <span class="question-num">Q2. 조건문 필터링</span>
+        <div class="question-text">다음 코드의 실행 결과로 올바른 것은?</div>
+        <pre>[x for x in range(10) if x % 3 == 0]</pre>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp2')">[3, 6, 9]</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp2')">[0, 3, 6, 9]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp2')">[1, 2, 4, 5, 7, 8]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp2')">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</button>
+        </div>
+        <div class="explanation" id="exp2">
+            <h4>정답입니다! 👏</h4>
+            <p>0을 3으로 나누면 나머지가 0이므로 0도 포함되어야 합니다. (0, 3, 6, 9)</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q3">
+        <span class="question-num">Q3. 문자열 필터링</span>
+        <div class="question-text">words 리스트에서 길이가 4 이상인 단어만 추출하는 코드는?</div>
+        <pre>words = ['apple', 'bat', 'cat', 'banana', 'dog']</pre>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp3')">[word for word in words if len(word) >= 4]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp3')">[word if len(word) >= 4 for word in words]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp3')">[len(word) >= 4 for word in words]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp3')">[word for word in words len(word) >= 4]</button>
+        </div>
+        <div class="explanation" id="exp3">
+            <h4>정답입니다! 👏</h4>
+            <p>조건 필터링(if)은 for문 뒤에 와야 합니다. len() 함수로 길이를 체크하는 것이 핵심입니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q4">
+        <span class="question-num">Q4. if-else 사용</span>
+        <div class="question-text">다음 코드의 실행 결과는?</div>
+        <pre>['짝수' if i % 2 == 0 else '홀수' for i in range(3)]</pre>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp4')">['홀수', '짝수', '홀수']</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp4')">['짝수', '홀수', '짝수']</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp4')">[0, 1, 2]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp4')">SyntaxError 발생</button>
+        </div>
+        <div class="explanation" id="exp4">
+            <h4>정답입니다! 👏</h4>
+            <p>0(짝수), 1(홀수), 2(짝수) 순서입니다. 값을 선택하는 if-else 구문은 for문 앞에 와야 합니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q5">
+        <span class="question-num">Q5. 중첩 반복문</span>
+        <div class="question-text">2차원 리스트 matrix를 1차원으로 펼치는(flatten) 코드는?</div>
+        <pre>matrix = [[1, 2], [3, 4]]</pre>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp5')">[num for row in matrix for num in row]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp5')">[num for num in row for row in matrix]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp5')">[row for num in matrix for row in num]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp5')">[num for row in matrix, num in row]</button>
+        </div>
+        <div class="explanation" id="exp5">
+            <h4>정답입니다! 👏</h4>
+            <p>순서는 일반 for문과 같습니다. 바깥쪽 리스트(matrix)에서 행(row)을 먼저 꺼내고, 그 행에서 숫자(num)를 꺼내야 합니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q6">
+        <span class="question-num">Q6. 로직 검증</span>
+        <div class="question-text">다음 중 구구단 2단 결과가 '다른' 하나는?</div>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp6')">[i * 2 for i in range(1, 10)]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp6')">list(map(lambda x: x * 2, range(1, 10)))</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp6')">[i for i in range(2, 20, 2)]</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp6')">[i * 2 for i in range(1, 10) if i % 2 == 0]</button>
+        </div>
+        <div class="explanation" id="exp6">
+            <h4>정답입니다! 👏</h4>
+            <p>네 번째 보기는 if 조건 때문에 짝수(2,4,6,8)에만 2를 곱합니다. 나머지 보기들은 1~9 전체에 곱합니다.</p>
+        </div>
+    </div>
+
+     <div class="quiz-card" id="q7">
+        <span class="question-num">Q7. 이중 루프 문자열</span>
+        <div class="question-text">다음 코드의 실행 결과는?</div>
+        <pre>[x + y for x in 'AB' for y in '12']</pre>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp7')">['A1', 'A2', 'B1', 'B2']</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp7')">['A1', 'B2']</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp7')">['A', 'B', '1', '2']</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp7')">['A1', 'B1', 'A2', 'B2']</button>
+        </div>
+        <div class="explanation" id="exp7">
+            <h4>정답입니다! 👏</h4>
+            <p>x가 'A'일 때 y가 '1','2'를 돌고, 그 다음 x가 'B'일 때 반복합니다. 모든 조합을 만듭니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q8">
+        <span class="question-num">Q8. 딕셔너리 컴프리헨션</span>
+        <div class="question-text">딕셔너리의 키와 값을 서로 바꾸는 코드는?</div>
+        <pre>d = {1: 'a', 2: 'b'}</pre>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp8')">{v: k for k, v in d.items()}</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp8')">[v: k for k, v in d.items()]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp8')">{k: v for k, v in d.items().reverse()}</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp8')">{v, k for k, v in d.items()}</button>
+        </div>
+        <div class="explanation" id="exp8">
+            <h4>정답입니다! 👏</h4>
+            <p>d.items()로 키(k)와 값(v)을 꺼낸 뒤, 위치를 바꾸어 {v: k} 형태로 저장하면 됩니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q9">
+        <span class="question-num">Q9. 문법 오류 찾기</span>
+        <div class="question-text">다음 중 문법 오류(SyntaxError)가 발생하는 코드는?</div>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp9')">[x for x in range(5) if x > 2]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp9')">[x if x > 2 else 0 for x in range(5)]</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp9')">[x for x in range(5) if x > 2 else 0]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp9')">[x + 1 for x in range(5)]</button>
+        </div>
+        <div class="explanation" id="exp9">
+            <h4>정답입니다! 👏</h4>
+            <p>for문 뒤에 오는 if는 필터링 전용이므로 else를 사용할 수 없습니다. else를 쓰려면 for문 앞으로 옮겨야 합니다.</p>
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q10">
+        <span class="question-num">Q10. 사용 목적</span>
+        <div class="question-text">리스트 내포를 사용하는 이유로 적절하지 '않은' 것은?</div>
+
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'exp10')">무조건 코드 길이를 한 줄로 줄이기 위해</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp10')">새로운 리스트를 간결하게 생성하기 위해</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp10')">실행 속도 향상을 위해</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'exp10')">수학적 집합 정의 표현을 위해</button>
+        </div>
+        <div class="explanation" id="exp10">
+            <h4>정답입니다! 👏</h4>
+            <p>지나치게 복잡한 로직을 억지로 한 줄로 줄이면 가독성이 떨어집니다. 이럴 땐 일반 for문이 낫습니다.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function checkAnswer(btn, isCorrect, expId) {
+        const parent = btn.parentElement;
+        const explanation = document.getElementById(expId);
+
+        // 이미 선택한 경우 무시
+        if (parent.classList.contains('answered')) return;
+
+        parent.classList.add('answered');
+        const buttons = parent.getElementsByClassName('option-btn');
+
+        // 버튼 비활성화 및 스타일 적용
+        for (let b of buttons) {
+            b.classList.add('disabled');
+        }
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            btn.innerHTML += " ✅";
+            explanation.querySelector('h4').textContent = "정답입니다! 🎉";
+            explanation.querySelector('h4').style.color = "#059669";
+        } else {
+            btn.classList.add('wrong');
+            btn.innerHTML += " ❌";
+            explanation.querySelector('h4').textContent = "아쉽네요, 정답이 아닙니다. 😅";
+            explanation.querySelector('h4').style.color = "#dc2626";
+
+            // 정답 버튼 표시해주기 (선택사항 - 여기선 생략하거나 직접 찾게 유도)
+        }
+
+        // 해설 보여주기
+        explanation.style.display = 'block';
+    }
+
+    function toggleHint(hintId) {
+        const hint = document.getElementById(hintId);
+        if (hint.style.display === 'block') {
+            hint.style.display = 'none';
+        } else {
+            hint.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

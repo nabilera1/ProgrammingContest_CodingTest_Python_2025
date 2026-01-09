@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 Random & 리스트 마스터 퀴즈 (10제)</title>
+    <style>
+        /* 폰트 및 기본 설정 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #4f46e5;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        /* 문제 카드 */
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid #eef2f6;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #e0e7ff;
+            color: #4338ca;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #111827;
+        }
+
+        /* 코드 블록 */
+        pre {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            margin: 15px 0;
+            border-left: 5px solid #6366f1;
+            font-size: 0.95rem;
+        }
+
+        /* 보기 리스트 */
+        .options { list-style: none; margin-bottom: 20px; }
+
+        .options li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .options li:hover {
+            background-color: #f3f4f6;
+            border-color: #6366f1;
+        }
+
+        .num {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 24px;
+            height: 24px;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        /* 정답 확인 토글 (Details & Summary) */
+        details {
+            margin-top: 20px;
+            border-top: 2px dashed #e5e7eb;
+            padding-top: 20px;
+        }
+
+        summary {
+            cursor: pointer;
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 1.05rem;
+            list-style: none; /* 기본 삼각형 제거 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        summary:hover {
+            background-color: #eff6ff;
+        }
+
+        summary::after {
+            content: "▼";
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        /* 정답 내용 */
+        .answer-content {
+            background-color: #fef2f2; /* 연한 빨강 배경 */
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 1px solid #fecaca;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .correct {
+            color: #dc2626;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .explanation {
+            color: #4b5563;
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🐍 파이썬 Random & List 퀴즈</h1>
+        <p>기초부터 응용까지! 총 10문제를 풀어보세요.</p>
+    </header>
+
+    <div class="question-card">
+        <span class="badge">Q1. 기초 문법</span>
+        <div class="question-text">전체 학생 명단에서 당번 3명을 '중복 없이' 뽑는 함수는?</div>
+        <pre>import random
+students = ["A", "B", "C", "D", "E"]
+picked = random.______(students, 3)</pre>
+        <ul class="options">
+            <li><span class="num">1</span> random.choice</li>
+            <li><span class="num">2</span> random.randint</li>
+            <li><span class="num">3</span> random.sample</li>
+            <li><span class="num">4</span> random.shuffle</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 3번 (sample)</span>
+                <div class="explanation"><code>sample</code>은 중복 없이 여러 개를 뽑습니다. <code>choice</code>는 1개만, <code>choices</code>는 중복을 허용합니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q2. 코드 동작 이해</span>
+        <div class="question-text">다음 코드를 실행했을 때 결과로 올바른 것은?</div>
+        <pre>data = [1, 2, 3]
+random.shuffle(data)
+print(data)</pre>
+        <ul class="options">
+            <li><span class="num">1</span> 에러가 발생한다.</li>
+            <li><span class="num">2</span> data 리스트는 그대로고, 새 리스트가 반환된다.</li>
+            <li><span class="num">3</span> data 리스트 원본의 순서가 뒤섞인다.</li>
+            <li><span class="num">4</span> 항상 역순으로 정렬된다.</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 3번 (원본 변경)</span>
+                <div class="explanation"><code>shuffle</code> 메서드는 반환값(Return)이 없고, 원본 리스트 자체를 수정(In-place)합니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q3. 리스트 복사</span>
+        <div class="question-text"><code>candidates = list(students)</code> 처럼 list()를 씌우는 이유는?</div>
+        <ul class="options">
+            <li><span class="num">1</span> 코드를 더 간결하게 만들기 위해</li>
+            <li><span class="num">2</span> 원본(students)이 함께 수정되는 것을 막기 위해</li>
+            <li><span class="num">3</span> 실행 속도를 높이기 위해</li>
+            <li><span class="num">4</span> 튜플을 변환하기 위해</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 2번 (깊은 복사 효과)</span>
+                <div class="explanation">그냥 대입(<code>=</code>)하면 메모리 주소가 공유됩니다. <code>list()</code>를 써야 새로운 복사본이 생성됩니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q4. 데이터 삭제</span>
+        <div class="question-text">리스트에서 값(Value)을 기준으로 삭제하는 메서드는?</div>
+        <pre># "철수"를 명단에서 지우고 싶다
+candidates.____("철수")</pre>
+        <ul class="options">
+            <li><span class="num">1</span> delete</li>
+            <li><span class="num">2</span> pop</li>
+            <li><span class="num">3</span> remove</li>
+            <li><span class="num">4</span> clear</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 3번 (remove)</span>
+                <div class="explanation"><code>remove(값)</code>은 값을 찾아 지우고, <code>pop(인덱스)</code>는 위치 번호로 지웁니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q5. 로직 구현</span>
+        <div class="question-text">로테이션 코드에서 리셋(명단 복구)을 해야 하는 상황은?</div>
+        <ul class="options">
+            <li><span class="num">1</span> 후보가 한 명도 없을 때</li>
+            <li><span class="num">2</span> 뽑아야 할 인원보다 남은 후보가 적을 때</li>
+            <li><span class="num">3</span> 전체 학생 수보다 당번 수가 많을 때</li>
+            <li><span class="num">4</span> 후보가 짝수 명일 때</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 2번</span>
+                <div class="explanation">남은 사람은 1명인데 2명을 뽑아야 한다면 에러(`ValueError`)가 발생하므로, 미리 리셋해야 합니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q6. 숫자 범위 (New)</span>
+        <div class="question-text"><code>random.randint(1, 10)</code> 코드가 생성할 수 있는 숫자의 범위는?</div>
+        <ul class="options">
+            <li><span class="num">1</span> 1 이상 10 미만 (1~9)</li>
+            <li><span class="num">2</span> 1 이상 10 이하 (1~10)</li>
+            <li><span class="num">3</span> 0 이상 10 미만 (0~9)</li>
+            <li><span class="num">4</span> 0 이상 10 이하 (0~10)</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 2번 (1~10)</span>
+                <div class="explanation"><code>range(1, 10)</code>은 10을 포함하지 않지만, <code>randint(1, 10)</code>은 끝 번호(10)를 <strong>포함</strong>합니다. 학생들이 자주 틀리는 부분입니다!</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q7. 반환 타입 (New)</span>
+        <div class="question-text"><code>random.choice(['가', '나', '다'])</code>의 실행 결과(반환값)의 자료형은?</div>
+        <ul class="options">
+            <li><span class="num">1</span> 리스트 (List)</li>
+            <li><span class="num">2</span> 문자열 (String)</li>
+            <li><span class="num">3</span> 튜플 (Tuple)</li>
+            <li><span class="num">4</span> 딕셔너리 (Dictionary)</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 2번 (문자열)</span>
+                <div class="explanation">리스트 안의 요소 하나를 쏙 꺼내주므로, 요소의 타입인 문자열(`str`)이 됩니다. `sample`은 항상 리스트(`list`)를 반환합니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q8. 위치 찾기 (New)</span>
+        <div class="question-text">리스트에서 "영희"가 몇 번째에 있는지(인덱스) 알고 싶을 때 쓰는 메서드는?</div>
+        <pre>students = ["철수", "영희", "민수"]
+idx = students.____("영희") # 결과: 1</pre>
+        <ul class="options">
+            <li><span class="num">1</span> find</li>
+            <li><span class="num">2</span> search</li>
+            <li><span class="num">3</span> index</li>
+            <li><span class="num">4</span> count</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 3번 (index)</span>
+                <div class="explanation">리스트에는 `find` 메서드가 없습니다(`find`는 문자열용). 리스트에서는 `index()`를 사용해야 합니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q9. 리스트 수정 (New)</span>
+        <div class="question-text">리스트의 <strong>맨 마지막 요소를 꺼내고 삭제</strong>하는 메서드는?</div>
+        <pre>items = [10, 20, 30]
+last = items.____()
+# last는 30, items는 [10, 20]이 됨</pre>
+        <ul class="options">
+            <li><span class="num">1</span> push</li>
+            <li><span class="num">2</span> pop</li>
+            <li><span class="num">3</span> pull</li>
+            <li><span class="num">4</span> del</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 2번 (pop)</span>
+                <div class="explanation"><code>pop()</code>은 괄호 안에 아무것도 안 쓰면 맨 뒤의 값을 꺼내고 리스트에서 지웁니다.</div>
+            </div>
+        </details>
+    </div>
+
+    <div class="question-card">
+        <span class="badge">Q10. 에러 처리 (New)</span>
+        <div class="question-text">학생은 5명인데, <code>random.sample(students, 10)</code>을 실행하면 어떤 일이 발생할까요?</div>
+        <ul class="options">
+            <li><span class="num">1</span> 5명만 뽑히고 정상 종료된다.</li>
+            <li><span class="num">2</span> 5명을 뽑고 나머지 5명은 None으로 채워진다.</li>
+            <li><span class="num">3</span> 중복을 허용해서 10명을 채워준다.</li>
+            <li><span class="num">4</span> ValueError(오류)가 발생한다.</li>
+        </ul>
+        <details>
+            <summary>정답 확인하기</summary>
+            <div class="answer-content">
+                <span class="correct">정답: 4번 (오류 발생)</span>
+                <div class="explanation"><code>sample</code>은 모집단(리스트)보다 더 많은 수를 뽑으라고 하면 오류를 냅니다. 그래서 코드 작성 시 <code>len()</code> 체크가 필수적입니다.</div>
+            </div>
+        </details>
+    </div>
+
+</div>
+
+</body>
+</html>

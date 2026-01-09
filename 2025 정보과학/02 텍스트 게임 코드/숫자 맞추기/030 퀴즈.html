@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 추측 게임 코드 분석 (수정판)</title>
+    <style>
+        :root {
+            --primary: #5c6bc0;
+            --secondary: #26a69a;
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--primary); margin-bottom: 0.5rem; }
+
+        /* Code Block Styling (Fixed Indentation) */
+        .code-wrapper {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'D2Coding', 'Consolas', monospace;
+            font-size: 15px;
+            color: var(--code-text);
+            line-height: 1;
+            counter-reset: line;
+        }
+
+        .code-line {
+            display: block;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .code-line::before {
+            counter-increment: line;
+            content: counter(line);
+            position: absolute;
+            left: 0;
+            width: 30px;
+            text-align: right;
+            color: #5c6370;
+            user-select: none;
+        }
+
+        /* Syntax Highlighting */
+        .kw { color: #c678dd; font-weight: bold; } /* Keyword */
+        .fn { color: #61afef; } /* Function */
+        .str { color: #98c379; } /* String */
+        .num { color: #d19a66; } /* Number */
+        .cmt { color: #7f848e; font-style: italic; } /* Comment */
+
+        /* Quiz Styling */
+        .section-title {
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            margin: 40px 0 20px;
+            color: #2c3e50;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .q-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+        }
+        .badge.obj { background-color: var(--primary); }
+        .badge.subj { background-color: var(--secondary); }
+
+        /* Multiple Choice Options */
+        .options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .options button:hover { background-color: #e8eaf6; border-color: var(--primary); }
+
+        /* Subjective Answer Area */
+        textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .check-btn {
+            background-color: var(--text);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            background-color: #f1f8e9;
+            border: 1px solid #c5e1a5;
+            color: #33691e;
+            line-height: 1.5;
+        }
+        .feedback.wrong {
+            background-color: #ffebee;
+            border-color: #ef9a9a;
+            color: #c62828;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🔍 코드 분석 퀴즈 (수정판)</h1>
+        <p>들여쓰기가 교정된 코드를 확인하고 문제를 풀어보세요.</p>
+    </header>
+
+    <div class="code-wrapper">
+<pre>
+<span class="code-line"><span class="kw">import</span> random</span>
+<span class="code-line">lo, hi, tries = <span class="num">1</span>, <span class="num">20</span>, <span class="num">5</span></span>
+<span class="code-line">secret = random.randint(lo, hi)</span>
+<span class="code-line"><span class="fn">print</span>(f<span class="str">"{lo}~{hi} 숫자 맞히기! {tries}번 기회"</span>)</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="kw">while</span> tries > <span class="num">0</span>:</span>
+<span class="code-line">    s = <span class="fn">input</span>(<span class="str">"추측: "</span>).strip()</span>
+<span class="code-line">    <span class="kw">if not</span> s.isdigit():</span>
+<span class="code-line">        <span class="fn">print</span>(<span class="str">"숫자!"</span>); <span class="kw">continue</span>  <span class="cmt"># 들여쓰기 수정 완료 (4칸)</span></span>
+<span class="code-line">    </span>
+<span class="code-line">    g = <span class="fn">int</span>(s)</span>
+<span class="code-line">    <span class="kw">if</span> g == secret:</span>
+<span class="code-line">        <span class="fn">print</span>(<span class="str">"정답!"</span>)</span>
+<span class="code-line">        <span class="kw">break</span></span>
+<span class="code-line">        </span>
+<span class="code-line">    <span class="fn">print</span>(<span class="str">"UP"</span> <span class="kw">if</span> g < secret <span class="kw">else</span> <span class="str">"DOWN"</span>)</span>
+<span class="code-line">    tries -= <span class="num">1</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="kw">if</span> tries == <span class="num">0</span>:</span>
+<span class="code-line">    <span class="fn">print</span>(<span class="str">"실패.. 정답:"</span>, secret)</span>
+</pre>
+    </div>
+
+    <h2 class="section-title">📝 실력 점검 (객관식 & 주관식)</h2>
+
+    <div class="quiz-card">
+        <div class="q-title"><span class="badge obj">객관식</span> Q1. 코드 7번 라인의 `if not s.isdigit():` 조건은 언제 참(True)이 되나요?</div>
+        <div class="options" id="opt-1">
+            <button onclick="checkObj(1, 0)">1. 사용자가 숫자를 입력했을 때</button>
+            <button onclick="checkObj(1, 1)">2. 사용자가 한글이나 영어 등 숫자가 아닌 문자를 입력했을 때</button>
+            <button onclick="checkObj(1, 2)">3. 사용자가 아무것도 입력하지 않고 엔터를 쳤을 때</button>
+            <button onclick="checkObj(1, 3)">4. 정답보다 큰 수를 입력했을 때</button>
+        </div>
+        <div class="feedback" id="feed-1"></div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="q-title"><span class="badge subj">주관식</span> Q2. 8번 라인의 `continue`가 실행되면, 그 아래에 있는 `tries -= 1`(기회 차감) 코드는 실행될까요? 이유를 설명해 보세요.</div>
+        <textarea id="ans-2" placeholder="예/아니오와 그 이유를 적어주세요."></textarea>
+        <button class="check-btn" onclick="checkSubj(2)">정답 확인</button>
+        <div class="feedback" id="feed-2">
+            <strong>정답:</strong> 실행되지 않습니다 (기회가 줄어들지 않음).<br>
+            <strong>해설:</strong> `continue`를 만나면 남은 코드를 모두 건너뛰고 반복문의 처음으로 즉시 되돌아갑니다. 따라서 기회를 차감하는 코드에 도달하지 못하므로 기회는 그대로 유지됩니다.
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="q-title"><span class="badge obj">객관식</span> Q3. 사용자가 입력값으로 " 7 " (앞뒤 공백 포함)을 넣었을 때 에러가 나지 않는 이유는?</div>
+        <div class="options" id="opt-3">
+            <button onclick="checkObj(3, 0)">1. input() 함수가 자동으로 공백을 제거해주기 때문에</button>
+            <button onclick="checkObj(3, 1)">2. int() 함수가 공백을 무시하기 때문에</button>
+            <button onclick="checkObj(3, 2)">3. 6번 라인에서 .strip()을 사용하여 공백을 제거했기 때문에</button>
+            <button onclick="checkObj(3, 3)">4. 파이썬에서는 공백이 의미가 없기 때문에</button>
+        </div>
+        <div class="feedback" id="feed-3"></div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="q-title"><span class="badge subj">주관식</span> Q4. 이 게임이 '성공'으로 끝나는 경우와 '실패'로 끝나는 경우, 반복문은 각각 무엇에 의해 종료되나요?</div>
+        <textarea id="ans-4" placeholder="성공 시: ??? / 실패 시: ???"></textarea>
+        <button class="check-btn" onclick="checkSubj(4)">정답 확인</button>
+        <div class="feedback" id="feed-4">
+            <strong>정답:</strong> 성공 시 `break` 문, 실패 시 `while` 조건(tries > 0) 거짓<br>
+            <strong>해설:</strong> 정답을 맞추면 `break`를 만나 강제로 종료되고, 못 맞추고 기회를 다 쓰면 `while tries > 0` 조건이 더 이상 성립하지 않아 자연스럽게 종료됩니다.
+        </div>
+    </div>
+
+    <div class="quiz-card">
+        <div class="q-title"><span class="badge obj">객관식</span> Q5. 13번 라인 `print("UP" if g < secret else "DOWN")`의 의미로 올바른 것은?</div>
+        <div class="options" id="opt-5">
+            <button onclick="checkObj(5, 0)">1. 내 입력(g)이 정답보다 작으면 UP, 아니면 DOWN 출력</button>
+            <button onclick="checkObj(5, 1)">2. 내 입력(g)이 정답보다 크면 UP, 아니면 DOWN 출력</button>
+            <button onclick="checkObj(5, 2)">3. 무조건 UP과 DOWN을 둘 다 출력</button>
+            <button onclick="checkObj(5, 3)">4. 정답을 맞췄을 때 축하 메시지 출력</button>
+        </div>
+        <div class="feedback" id="feed-5"></div>
+    </div>
+
+</div>
+
+<script>
+    // 객관식 정답 데이터 (인덱스 기준)
+    const answersObj = {
+        1: { a: 1, desc: "isdigit()은 문자열이 숫자로만 구성되어 있는지 확인합니다. `not`이 붙었으므로 숫자가 아닐 때 참이 됩니다." },
+        3: { a: 2, desc: ".strip() 메서드는 문자열 양쪽 끝의 공백을 제거해 주는 역할을 합니다." },
+        5: { a: 0, desc: "삼항 연산자 구조입니다. `g < secret` 조건이 참(내가 쓴 숫자가 정답보다 작음)이면 앞의 'UP'이 출력됩니다." }
+    };
+
+    // 객관식 채점 함수
+    function checkObj(qNum, userIdx) {
+        const feed = document.getElementById(`feed-${qNum}`);
+        const correctIdx = answersObj[qNum].a;
+        const btns = document.querySelectorAll(`#opt-${qNum} button`);
+
+        // 버튼 비활성화
+        btns.forEach(b => b.disabled = true);
+
+        if (userIdx === correctIdx) {
+            feed.innerHTML = `<strong>⭕ 정답입니다!</strong><br>${answersObj[qNum].desc}`;
+            feed.className = "feedback";
+            btns[userIdx].style.backgroundColor = "#dcedc8";
+            btns[userIdx].style.borderColor = "#33691e";
+        } else {
+            feed.innerHTML = `<strong>❌ 오답입니다.</strong><br>${answersObj[qNum].desc}`;
+            feed.className = "feedback wrong";
+            btns[userIdx].style.backgroundColor = "#ffcdd2";
+            btns[correctIdx].style.backgroundColor = "#dcedc8"; // 정답 표시
+        }
+        feed.style.display = "block";
+    }
+
+    // 주관식 정답 보기 토글 함수
+    function checkSubj(qNum) {
+        const feed = document.getElementById(`feed-${qNum}`);
+        const btn = feed.previousElementSibling;
+
+        if (feed.style.display === "block") {
+            feed.style.display = "none";
+            btn.textContent = "정답 확인";
+        } else {
+            feed.style.display = "block";
+            btn.textContent = "닫기";
+        }
+    }
+</script>
+
+</body>
+</html>

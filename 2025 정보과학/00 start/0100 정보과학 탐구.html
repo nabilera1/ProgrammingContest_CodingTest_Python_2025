@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보과학 탐구: 파이썬과 알고리즘</title>
+    <style>
+        :root {
+            /* 세련된 컬러 팔레트 정의 */
+            --primary-color: #1a237e; /* 깊이 있는 인디고 블루 */
+            --primary-light: #534bae;
+            --accent-color: #c62828; /* 차분한 레드 */
+            --success-color: #2e7d32; /* 세련된 그린 */
+            --bg-color: #ffffff; /* 순수한 흰색 배경 */
+            --text-main: #212121; /* 짙은 블랙 */
+            --text-sub: #546e7a; /* 회색 서브 텍스트 */
+            --border-color: #e0e0e0;
+            --section-shadow: 0 8px 24px rgba(149, 157, 165, 0.1); /* 부드러운 그림자 */
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header redesign: Clean and Typography-focused */
+        header {
+            background: var(--bg-color);
+            padding: 3rem 1rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-sub);
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Section styling: Modern cards with soft shadow */
+        section {
+            background: var(--bg-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--section-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 세련된 밑줄 효과 */
+        h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: var(--primary-light);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--text-main);
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--text-sub);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Concept Grid & Cards Redesign */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .concept-card {
+            background: var(--bg-color);
+            /* 왼쪽 두꺼운 선 대신 상단 얇은 포인트 라인 적용 */
+            border-top: 3px solid var(--primary-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            padding: 1.8rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--section-shadow);
+        }
+
+        .concept-card h4 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Code styling */
+        code {
+            background-color: #f5f7f9;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background-color: #263238; /* 더 깊은 다크 테마 */
+            color: #eceff1;
+            padding: 1.2rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        /* Quiz Section Styling */
+        .score-board {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #e8eaf6; /* 아주 연한 인디고 배경 */
+            border-radius: 50px; /* 둥근 캡슐 형태 */
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .quiz-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 0;
+        }
+
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+
+        .quiz-question {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+
+        .options label:hover {
+            background-color: #f0f2f5;
+            border-color: var(--primary-light);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+        }
+
+        .check-answer-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
+        }
+
+        .check-answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 35, 126, 0.3);
+        }
+
+        .check-answer-btn:disabled {
+            background: var(--border-color);
+            color: var(--text-sub);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            font-weight: 500;
+            padding: 1.2rem;
+            border-radius: 10px;
+            display: none;
+            border-left: 5px solid transparent;
+        }
+
+        .feedback.correct {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border-left-color: var(--success-color);
+        }
+
+        .feedback.incorrect {
+            background-color: #ffebee;
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+        }
+
+        /* Flowchart Symbol Styles */
+        .symbol-demo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+
+        .flow-shape {
+            width: 60px;
+            height: 40px;
+            border: 2px solid var(--text-sub);
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 40px;
+            font-size: 10px;
+            background: white;
+        }
+        .shape-oval { border-radius: 20px; }
+        .shape-rect { border-radius: 4px; }
+        .shape-para { transform: skewX(-20deg); margin-left: 10px; }
+        .shape-diamond { transform: rotate(45deg); width: 36px; height: 36px; margin: 2px 12px; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container" style="margin: 0 auto; padding: 0 1.5rem;">
+        <h1>정보과학 탐구: 파이썬과 알고리즘</h1>
+        <p>논리적 사고의 시작, 알고리즘의 개념부터 파이썬 실습까지</p>
+    </div>
+</header>
+
+<div class="container">
+    <section id="intro">
+        <h2>1. 정보과학이란?</h2>
+        <p>
+            정보과학은 단순히 컴퓨터를 사용하는 기술을 넘어, <strong>문제를 효율적으로 해결하는 절차와 방법(알고리즘)</strong>을 연구하는 핵심적인 학문입니다.
+            우리는 복잡한 현실의 문제들을 컴퓨팅 사고력을 통해 명확하게 정의하고 해결할 수 있습니다.
+        </p>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>추상화 (Abstraction)</h4>
+                <p>문제의 복잡한 세부 사항은 숨기고, 해결에 필요한 핵심적인 요소(특징)만 추출하여 단순화하는 과정입니다.</p>
+            </div>
+            <div class="concept-card">
+                <h4>자동화 (Automation)</h4>
+                <p>설계된 알고리즘을 파이썬과 같은 프로그래밍 언어로 구현하여, 컴퓨터가 스스로 일을 수행하도록 만드는 것입니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="concepts">
+        <h2>2. 알고리즘의 개념과 구조</h2>
+        <p>알고리즘이란 어떤 문제를 해결하기 위해 정해진 일련의 명확한 절차나 방법을 의미합니다. 복잡해 보이는 모든 프로그램도 결국 다음 세 가지 기본 제어 구조의 조합으로 이루어집니다.</p>
+
+        <div class="concept-grid">
+            <div class="concept-card">
+                <h4>순차 구조 (Sequence)</h4>
+                <p>가장 기본적인 구조로, 작성된 명령 코드를 위에서 아래로 흐름에 따라 차례대로 실행합니다.</p>
+                <pre>print("첫 번째 실행")
+print("두 번째 실행")
+# 순서대로 실행됩니다.</pre>
+            </div>
+            <div class="concept-card">
+                <h4>선택 구조 (Selection)</h4>
+                <p>주어진 조건의 참/거짓 여부에 따라 다음에 실행할 명령을 다르게 선택하는 구조입니다. (if문)</p>
+                <pre>score = 85
+if score >= 60:
+    print("합격입니다.")
+else:
+    print("불합격입니다.")</pre>
+            </div>
+            <div class="concept-card">
+                <h4>반복 구조 (Iteration)</h4>
+                <p>특정 조건이 만족되는 동안, 또는 정해진 횟수만큼 동일한 명령을 반복해서 실행합니다. (for, while)</p>
+                <pre>for i in range(3):
+    print(f"{i+1}번째 반복 중")
+# 3번 반복 실행됩니다.</pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="visualization">
+        <h2>3. 알고리즘 표현과 시각화</h2>
+        <p>설계한 알고리즘을 다른 사람과 공유하거나 컴퓨터로 구현하기 위해서는 약속된 표현 방법이 필요합니다.</p>
+
+        <h3>의사코드 (Pseudocode)</h3>
+        <p>특정 프로그래밍 언어의 엄격한 문법에 얽매이지 않고, 알고리즘의 핵심 논리를 사람이 이해하기 쉬운 언어(자연어)로 간략히 기술한 코드입니다.</p>
+        <pre>
+[예시: 라면 끓이기 알고리즘]
+시작
+1. 냄비에 적당량의 물을 넣는다.
+2. 가스불을 켜고 물이 끓을 때까지 기다린다.
+3. 만약(if) 물이 끓으면:
+    면, 스프, 건더기를 넣는다.
+4. 3분간 더 끓인다. (반복 대기)
+5. 불을 끄고 그릇에 담는다.
+종료</pre>
+
+        <h3>순서도 (Flowchart)</h3>
+        <p>
+            미리 약속된 표준 기호와 흐름선을 사용하여 알고리즘의 진행 순서와 논리적 구조를 시각적으로 도식화한 것입니다.
+            <br>
+            <a href="https://ko.wikipedia.org/wiki/%EC%88%9C%EC%84%9C%EB%8F%84" target="_blank" style="color: var(--primary-color); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--primary-color); margin-top: 5px; display: inline-block;">
+                👉 위키백과에서 순서도 자세히 보기
+            </a>
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div class="symbol-demo"><div class="flow-shape shape-oval"></div> <span><strong>단말 (Terminal):</strong> 시작과 종료</span></div>
+            <div class="symbol-demo"><div class="flow-shape shape-para"></div> <span><strong>입출력 (I/O):</strong> 데이터 입력/출력</span></div>
+            <div class="symbol-demo"><div class="flow-shape shape-rect"></div> <span><strong>처리 (Process):</strong> 연산, 명령 실행</span></div>
+            <div class="symbol-demo"><div class="flow-shape shape-diamond"></div> <span><strong>판단 (Decision):</strong> 조건 분기 (Yes/No)</span></div>
+        </div>
+    </section>
+
+    <section id="quiz">
+        <h2>4. 실전 핵심 퀴즈 (20문제)</h2>
+        <p>학습한 핵심 개념을 퀴즈를 통해 확인해보세요. 문제를 풀고 '정답 확인' 버튼을 누르면 즉시 결과를 알 수 있습니다.</p>
+
+        <div class="score-board">
+            현재 내 점수: <span id="current-score" style="color: var(--accent-color); font-size: 1.5em;">0</span> / 20 점
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </section>
+</div>
+
+<script>
+    // (JavaScript 코드는 이전과 동일합니다. 디자인 변경에 영향을 받지 않습니다.)
+    const questions = [
+        {
+            q: "문제를 해결하기 위해 명확하게 정의된 일련의 절차나 방법을 무엇이라 하는가?",
+            options: ["추상화", "알고리즘", "디버깅", "하드웨어"],
+            answer: 1,
+            desc: "알고리즘은 문제 해결을 위한 정해진 절차나 방법입니다."
+        },
+        {
+            q: "다음 중 알고리즘의 3가지 기본 제어 구조가 아닌 것은?",
+            options: ["순차 구조", "선택 구조", "반복 구조", "객체 구조"],
+            answer: 3,
+            desc: "알고리즘의 기본 구조는 순차, 선택, 반복입니다. 객체 지향은 프로그래밍 패러다임 중 하나입니다."
+        },
+        {
+            q: "순서도에서 알고리즘의 '시작'과 '종료'를 나타내는 기호는?",
+            options: ["직사각형", "마름모", "타원(Oval)", "평행사변형"],
+            answer: 2,
+            desc: "타원형 기호는 흐름의 시작과 끝(단말)을 나타냅니다."
+        },
+        {
+            q: "순서도에서 조건에 따른 판단(분기, 예/아니오)을 나타내는 기호는?",
+            options: ["직사각형", "마름모(Diamond)", "원", "화살표"],
+            answer: 1,
+            desc: "마름모는 조건을 판단하여 흐름을 분기할 때 사용합니다."
+        },
+        {
+            q: "파이썬에서 조건에 따라 다른 명령을 실행하는 '선택 구조'를 구현하는 키워드는?",
+            options: ["for", "if", "def", "import"],
+            answer: 1,
+            desc: "if 문은 주어진 조건이 참인지 거짓인지에 따라 실행 경로를 선택합니다."
+        },
+        {
+            q: "파이썬에서 특정 횟수만큼 반복하거나 시퀀스를 순회할 때 주로 사용하는 문법은?",
+            options: ["if", "switch", "for", "print"],
+            answer: 2,
+            desc: "for 문은 정해진 횟수나 범위 내에서 반복 작업을 수행할 때 주로 사용됩니다."
+        },
+        {
+            q: "특정 프로그래밍 언어의 문법에 얽매이지 않고, 사람의 언어로 알고리즘의 논리를 대략적으로 작성한 것은?",
+            options: ["소스코드", "기계어", "의사코드(Pseudocode)", "바이트코드"],
+            answer: 2,
+            desc: "의사코드는 알고리즘의 논리적 흐름을 사람이 이해하기 쉽게 표현한 것입니다."
+        },
+        {
+            q: "다음 파이썬 코드의 실행 결과는? \nprint(10 + 2 * 3)",
+            options: ["36", "16", "15", "12"],
+            answer: 1,
+            desc: "연산자 우선순위에 따라 곱셈(2 * 3 = 6)이 먼저 수행되고, 그 후에 덧셈(10 + 6 = 16)이 수행됩니다."
+        },
+        {
+            q: "알고리즘의 '순차 구조'에 대한 설명으로 옳은 것은?",
+            options: ["조건에 따라 실행 순서가 바뀐다.", "명령이 위에서 아래로 작성된 순서대로 실행된다.", "특정 명령이 계속 반복된다.", "실행 순서가 예측 불가능하다."],
+            answer: 1,
+            desc: "순차 구조는 가장 기본적인 구조로, 코드가 작성된 순서대로 차례로 실행됩니다."
+        },
+        {
+            q: "사용자로부터 키보드로 데이터를 '입력'받기 위해 사용하는 파이썬 함수는?",
+            options: ["print()", "input()", "scan()", "get()"],
+            answer: 1,
+            desc: "input() 함수는 사용자 입력을 문자열 형태로 받습니다."
+        },
+        {
+            q: "반복문(for, while) 실행 도중 특정 조건에서 반복을 즉시 중단하고 빠져나오는 키워드는?",
+            options: ["continue", "pass", "break", "stop"],
+            answer: 2,
+            desc: "break 키워드를 만나면 감싸고 있는 가장 가까운 반복문을 즉시 종료합니다."
+        },
+        {
+            q: "알고리즘의 효율성을 평가하는 척도로, 입력 데이터의 크기에 따라 실행 시간이 얼마나 증가하는지를 나타내는 개념은?",
+            options: ["시간 복잡도", "공간 복잡도", "코드의 길이", "변수의 개수"],
+            answer: 0,
+            desc: "시간 복잡도(Time Complexity)는 알고리즘의 실행 시간이 입력값 증가에 따라 어떻게 변하는지를 나타냅니다."
+        },
+        {
+            q: "순서도에서 연산이나 값의 대입 같은 '처리(Process)' 과정을 나타내는 기호는?",
+            options: ["직사각형", "마름모", "평행사변형", "원"],
+            answer: 0,
+            desc: "직사각형 기호는 계산이나 데이터 처리 과정을 나타냅니다."
+        },
+        {
+            q: "다음 코드의 실행 결과로 올바른 것은? \nfor i in range(3): print(i)",
+            options: ["1, 2, 3", "0, 1, 2", "0, 1, 2, 3", "1, 2"],
+            answer: 1,
+            desc: "range(3)은 0 이상 3 미만의 정수(0, 1, 2)를 생성합니다."
+        },
+        {
+            q: "프로그램이 실행은 되지만, 알고리즘 설계가 잘못되어 예상과 다른 결과가 나오는 오류를 무엇이라 하는가?",
+            options: ["문법 오류(Syntax Error)", "논리적 오류(Logical Error)", "런타임 오류", "하드웨어 오류"],
+            answer: 1,
+            desc: "논리적 오류는 프로그램 실행에는 문제가 없으나, 결과가 의도한 대로 나오지 않는 오류입니다."
+        },
+        {
+            q: "파이썬에서 참(True)과 거짓(False) 두 가지 값만을 가지는 데이터 타입은?",
+            options: ["정수형(int)", "문자열(str)", "불리언(bool)", "리스트(list)"],
+            answer: 2,
+            desc: "불리언(Boolean) 타입은 논리적인 참/거짓을 표현합니다."
+        },
+        {
+            q: "파이썬 코드에서 실행에 영향을 주지 않고 설명을 달기 위한 '주석' 기호는?",
+            options: ["//", "/* */", "# (샵)", "--"],
+            answer: 2,
+            desc: "파이썬에서는 '#' 기호를 사용하여 한 줄 주석을 작성합니다."
+        },
+        {
+            q: "좋은 알고리즘이 갖추어야 할 조건이 아닌 것은?",
+            options: ["명확성 (각 단계가 명확해야 함)", "유한성 (반드시 종료되어야 함)", "효율성 (시간과 자원을 적게 사용)", "모호성 (여러 가지로 해석될 수 있어야 함)"],
+            answer: 3,
+            desc: "알고리즘의 각 단계는 모호하지 않고 명확한 의미를 가져야 합니다."
+        },
+        {
+            q: "파이썬의 while 반복문은 주로 언제 사용하기 적합한가?",
+            options: ["반복 횟수가 명확히 정해져 있을 때", "특정 조건이 '참'인 동안 계속 반복해야 할 때", "무조건 한 번만 실행할 때", "여러 조건 중 하나를 선택할 때"],
+            answer: 1,
+            desc: "while 문은 조건식이 True를 유지하는 동안 블록 내부의 코드를 계속 반복 실행합니다."
+        },
+        {
+            q: "복잡한 프로그램의 전체적인 실행 흐름과 논리 구조를 도형으로 시각적으로 파악하기 가장 좋은 도구는?",
+            options: ["의사코드", "순서도(Flowchart)", "주석", "디버거"],
+            answer: 1,
+            desc: "순서도는 약속된 도형을 이용해 알고리즘의 흐름을 그림으로 보여주어 직관적인 이해를 돕습니다."
+        }
+    ];
+
+    const quizContainer = document.getElementById('quiz-container');
+    let score = 0;
+
+    questions.forEach((item, index) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'quiz-item';
+
+        let optionsHtml = '';
+        item.options.forEach((opt, optIndex) => {
+            optionsHtml += `
+                <label>
+                    <input type="radio" name="q${index}" value="${optIndex}">
+                    ${opt}
+                </label>
+            `;
+        });
+
+        qDiv.innerHTML = `
+            <div class="quiz-question">Q${index + 1}. ${item.q.replace(/\n/g, '<br>')}</div>
+            <div class="options">${optionsHtml}</div>
+            <button class="check-answer-btn" onclick="checkAnswer(${index}, ${item.answer}, this)">정답 확인하기</button>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        quizContainer.appendChild(qDiv);
+    });
+
+    function checkAnswer(qIndex, correctIndex, btnElement) {
+        const selected = document.querySelector(`input[name="q${qIndex}"]:checked`);
+        const feedbackDiv = document.getElementById(`feedback-${qIndex}`);
+        const scoreSpan = document.getElementById('current-score');
+
+        if (!selected) {
+            alert("답안을 선택해주세요.");
+            return;
+        }
+
+        // Disable inputs and button after submission
+        const radios = document.querySelectorAll(`input[name="q${qIndex}"]`);
+        radios.forEach(radio => radio.disabled = true);
+        btnElement.disabled = true;
+        btnElement.textContent = "확인 완료";
+
+        const userVal = parseInt(selected.value);
+
+        if (userVal === correctIndex) {
+            feedbackDiv.innerHTML = `<strong>✅ 정답입니다!</strong><br>${questions[qIndex].desc}`;
+            feedbackDiv.className = 'feedback correct';
+            feedbackDiv.style.display = 'block';
+            score++;
+            scoreSpan.textContent = score;
+        } else {
+            feedbackDiv.innerHTML = `<strong>❌ 오답입니다.</strong><br>정답은 [ ${questions[qIndex].options[correctIndex]} ] 입니다.<br><br>💡 <strong>해설:</strong> ${questions[qIndex].desc}`;
+            feedbackDiv.className = 'feedback incorrect';
+            feedbackDiv.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

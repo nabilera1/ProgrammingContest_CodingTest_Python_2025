@@ -1,7 +1,7 @@
 import sys
 input = sys.stdin.readline
 N = int(input())
-tree = {}  # 딕셔너리 형태로 선언
+tree = {}  # 01 딕셔너리 형태로 선언
 for _ in range(N):
     root, left, right = input().split()
     tree[root] = [left, right]

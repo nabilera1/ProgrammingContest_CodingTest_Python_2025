@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 Level 1 핵심 퀴즈</title>
+    <style>
+        :root {
+            --primary-color: #3776AB; /* Python Blue */
+            --secondary-color: #FFD343; /* Python Yellow */
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --correct-color: #2e7d32;
+            --wrong-color: #c62828;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-badge {
+            background-color: var(--secondary-color);
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #222;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #f0f4f8;
+            border-color: var(--primary-color);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            color: var(--correct-color);
+        }
+
+        .feedback.wrong {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            color: var(--wrong-color);
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>파이썬 기초 퀴즈 <span class="level-badge">Level 1</span></h1>
+        <p>변수, 입력, 조건문, 반복문 기초 점검하기</p>
+    </header>
+
+    <div id="quiz-container">
+        </div>
+
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "사용자에게 입력을 받는 <code>input()</code> 함수는 모든 데이터를 어떤 형태(자료형)로 받아들일까요?",
+            options: ["정수 (Integer)", "실수 (Float)", "문자열 (String)", "리스트 (List)"],
+            a: 2,
+            desc: "input()으로 받은 데이터는 무조건 문자열(String)입니다. 숫자로 계산하려면 int()로 변환해야 합니다."
+        },
+        {
+            q: "<code>if</code> 문에서 '같다'라는 의미를 비교할 때 사용하는 올바른 연산자는?",
+            options: ["=", "==", ":", "equals"],
+            a: 1,
+            desc: "<code>=</code>은 변수에 값을 대입할 때 쓰고, 비교할 때는 <code>==</code>를 사용합니다."
+        },
+        {
+            q: "숫자 맞추기 게임에서 사용자가 입력한 값(guess)이 정답(answer)보다 <b>클 때</b>, '더 작은 수를 입력해'라고 알려주려면 어떤 조건이 필요한가요?",
+            options: ["if guess < answer:", "if guess > answer:", "if guess == answer:", "if guess != answer:"],
+            a: 1,
+            desc: "추측한 값(guess)이 정답(answer)보다 크다면(<code>&gt;</code>), 정답은 그보다 아래에 있으므로 '더 작은 수(Down)'라고 알려줘야 합니다."
+        },
+        {
+            q: "<code>while True:</code>로 만든 무한 반복문을 즉시 탈출(종료)하기 위해 사용하는 명령어는?",
+            options: ["stop", "exit", "return", "break"],
+            a: 3,
+            desc: "<code>break</code> 문을 만나면 감싸고 있는 반복문을 즉시 빠져나갑니다."
+        },
+        {
+            q: "1부터 100 사이의 무작위 정수 하나를 뽑기 위해 <code>random</code> 모듈에서 사용하는 함수는?",
+            options: ["random.randint(1, 100)", "random.choice(1, 100)", "random.range(100)", "random.select(1, 100)"],
+            a: 0,
+            desc: "<code>random.randint(a, b)</code>는 a부터 b까지(b 포함)의 정수 중 하나를 무작위로 반환합니다."
+        }
+    ];
+
+    const quizContainer = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+
+        let buttonsHtml = '';
+        item.options.forEach((opt, optIdx) => {
+            buttonsHtml += `<button class="option-btn" onclick="checkAnswer(${index}, ${optIdx}, this)">${optIdx + 1}. ${opt}</button>`;
+        });
+
+        card.innerHTML = `
+            <div class="question-text">Q${index + 1}. ${item.q}</div>
+            <div class="options">${buttonsHtml}</div>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        quizContainer.appendChild(card);
+    });
+
+    function checkAnswer(qIdx, userChoice, btnElement) {
+        const feedbackDiv = document.getElementById(`feedback-${qIdx}`);
+        const qData = questions[qIdx];
+        const allButtons = btnElement.parentElement.querySelectorAll('.option-btn');
+
+        // 모든 버튼 비활성화 (중복 클릭 방지)
+        allButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.style.cursor = 'default';
+        });
+
+        if (userChoice === qData.a) {
+            // 정답
+            feedbackDiv.innerHTML = `<strong>⭕ 정답입니다!</strong><br>${qData.desc}`;
+            feedbackDiv.className = 'feedback correct';
+            btnElement.style.backgroundColor = '#e8f5e9';
+            btnElement.style.borderColor = '#2e7d32';
+            btnElement.style.color = '#1b5e20';
+            btnElement.style.fontWeight = 'bold';
+        } else {
+            // 오답
+            feedbackDiv.innerHTML = `<strong>❌ 틀렸습니다.</strong><br>정답은 <b>${qData.a + 1}번</b>입니다.<br>${qData.desc}`;
+            feedbackDiv.className = 'feedback wrong';
+            btnElement.style.backgroundColor = '#ffebee';
+            btnElement.style.borderColor = '#c62828';
+            btnElement.style.color = '#b71c1c';
+
+            // 정답 버튼 표시
+            allButtons[qData.a].style.backgroundColor = '#e8f5e9';
+            allButtons[qData.a].style.borderColor = '#2e7d32';
+            allButtons[qData.a].style.fontWeight = 'bold';
+        }
+        feedbackDiv.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

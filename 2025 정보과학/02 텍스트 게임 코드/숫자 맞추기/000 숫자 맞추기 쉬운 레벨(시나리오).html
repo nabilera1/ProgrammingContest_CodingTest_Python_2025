@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>파이썬 문제: 랜덤 Up & Down 게임</title>
+<style>
+    body {
+        font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f7f6;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        border-bottom: 2px solid #27ae60;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+    h2 {
+        color: #27ae60;
+        margin-top: 30px;
+        font-size: 1.3em;
+    }
+    .scenario-box {
+        background-color: #eafaf1;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 5px solid #27ae60;
+        margin-bottom: 20px;
+    }
+    ul, ol {
+        padding-left: 25px;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    code {
+        background-color: #f8f9fa;
+        padding: 2px 4px;
+        border-radius: 4px;
+        color: #c7254e;
+        font-family: 'Consolas', 'Monaco', monospace;
+    }
+    .terminal {
+        background-color: #1e1e1e;
+        color: #00ff00;
+        padding: 15px;
+        border-radius: 5px;
+        font-family: 'Consolas', 'Monaco', monospace;
+        white-space: pre-wrap;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎲 컴퓨터와 대결하는 랜덤 Up & Down</h1>
+
+    <h2>1. 시나리오</h2>
+    <div class="scenario-box">
+        <p>
+            컴퓨터가 <strong>1부터 50 사이의 숫자 중 하나</strong>를 마음속으로 생각했습니다.<br>
+            여러분은 컴퓨터가 생각한 숫자가 무엇인지 맞춰야 합니다.
+        </p>
+        <p>
+            여러분이 입력한 숫자가 정답보다 큰지, 작은지 알려주는 프로그램을 작성하세요.
+        </p>
+    </div>
+
+    <h2>2. 요구 사항</h2>
+    <ol>
+        <li>
+            <strong>랜덤 숫자 생성:</strong>
+            <ul>
+                <li><code>random</code> 모듈을 불러옵니다. (import)</li>
+                <li><strong>1부터 50 사이</strong>의 랜덤한 정수를 뽑아 <code>number</code> 변수에 저장하세요.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>사용자 입력:</strong>
+            <ul>
+                <li>사용자에게 <code>'1~50 사이의 숫자를 입력하세요: '</code>라고 묻고, 입력받은 값을 정수형(int)으로 변환하여 <code>guess</code> 변수에 저장하세요.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>결과 판별 (if - elif - else):</strong>
+            <ul>
+                <li><strong>정답(guess == number):</strong> <code>'정답입니다! 운이 좋으시네요!'</code> 출력</li>
+                <li><strong>너무 작을 때(guess < number):</strong> <code>'틀렸습니다. 더 큰 수입니다.'</code> 출력</li>
+                <li><strong>너무 클 때(guess > number):</strong> <code>'틀렸습니다. 더 작은 수입니다.'</code> 출력</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h2>3. 실행 예시</h2>
+    <p>※ 컴퓨터가 생각한 숫자가 30일 때, 사용자가 15를 입력한 경우</p>
+    <div class="terminal">1~50 사이의 숫자를 입력하세요: 15
+틀렸습니다. 더 큰 수입니다.</div>
+</div>
+
+</body>
+</html>

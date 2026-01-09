@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 리스트 마스터 퀴즈 (번호 포함)</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            color: #4f46e5;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .question-number {
+            display: inline-block;
+            background-color: #e0e7ff;
+            color: #4338ca;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            border-left: 5px solid #6366f1;
+        }
+
+        /* 보기 버튼 그리드 */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        /* 버튼 스타일 수정 (Flexbox 적용) */
+        .option-btn {
+            display: flex;
+            align-items: center; /* 수직 중앙 정렬 */
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            color: #4b5563;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        /* 번호 아이콘 스타일 */
+        .num-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 28px;
+            height: 28px;
+            background-color: #f3f4f6;
+            color: #6b7280;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            flex-shrink: 0; /* 아이콘 크기 고정 */
+        }
+
+        .option-btn:hover {
+            background-color: #f9fafb;
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+
+        .option-btn:hover .num-icon {
+            background-color: #e0e7ff;
+            color: #4338ca;
+        }
+
+        /* 정답 스타일 */
+        .option-btn.correct {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #14532d !important;
+        }
+
+        .option-btn.correct .num-icon {
+            background-color: #22c55e;
+            color: white;
+        }
+
+        /* 오답 스타일 */
+        .option-btn.wrong {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .option-btn.wrong .num-icon {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        /* OX 마크 */
+        .option-btn.correct::after {
+            content: "⭕";
+            position: absolute;
+            right: 20px;
+        }
+
+        .option-btn.wrong::after {
+            content: "❌";
+            position: absolute;
+            right: 20px;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        .explanation-title {
+            color: #0284c7;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (min-width: 600px) {
+            .options-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🐍 파이썬 리스트 10제</h1>
+        <p>문제를 선택하면 정답 여부를 즉시 확인할 수 있습니다.</p>
+    </header>
+
+    <div class="quiz-card" id="q1">
+        <span class="question-number">문제 1</span>
+        <div class="question-text">리스트 <code>data</code>의 길이를 구하는 올바른 코드는?</div>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q1')"><span class="num-icon">1</span>data.length</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q1')"><span class="num-icon">2</span>data.len()</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q1')"><span class="num-icon">3</span>len(data)</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q1')"><span class="num-icon">4</span>data.size()</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            <code>len()</code>은 파이썬의 내장 함수이므로 괄호 안에 리스트를 넣어서 사용해야 합니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q2">
+        <span class="question-number">문제 2</span>
+        <div class="question-text">리스트 맨 뒤에 요소 하나를 추가하는 메서드는?</div>
+        <pre>items = [1, 2]
+items._____(3)
+# 결과: [1, 2, 3]</pre>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q2')"><span class="num-icon">1</span>add</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q2')"><span class="num-icon">2</span>push</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q2')"><span class="num-icon">3</span>insert</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q2')"><span class="num-icon">4</span>append</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            파이썬 리스트 추가의 기본은 <code>append()</code>입니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q3">
+        <span class="question-number">문제 3</span>
+        <div class="question-text">다음 코드 실행 후 출력되는 값은?</div>
+        <pre>a = [3, 1, 2]
+b = a.sort()
+print(b)</pre>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q3')"><span class="num-icon">1</span>[1, 2, 3]</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q3')"><span class="num-icon">2</span>[3, 1, 2]</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q3')"><span class="num-icon">3</span>None</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q3')"><span class="num-icon">4</span>Error</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            <code>sort()</code> 메서드는 리스트 원본을 변경하고 <strong>아무것도 반환하지 않습니다(None)</strong>.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q4">
+        <span class="question-number">문제 4</span>
+        <div class="question-text">리스트 <code>a</code> 뒤에 리스트 <code>[1, 2]</code>를 연결(확장)하려고 합니다.</div>
+        <pre>a = [10, 20]
+# 목표: [10, 20, 1, 2]
+a.______([1, 2])</pre>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q4')"><span class="num-icon">1</span>append</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q4')"><span class="num-icon">2</span>extend</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q4')"><span class="num-icon">3</span>plus</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q4')"><span class="num-icon">4</span>join</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            알맹이만 풀어서 리스트를 합칠 때는 <code>extend</code>를 사용합니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q5">
+        <span class="question-number">문제 5</span>
+        <div class="question-text">리스트에서 값(Value) <strong>5</strong>를 찾아서 삭제하는 메서드는?</div>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q5')"><span class="num-icon">1</span>delete(5)</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q5')"><span class="num-icon">2</span>remove(5)</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q5')"><span class="num-icon">3</span>pop(5)</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q5')"><span class="num-icon">4</span>del(5)</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            값을 찾아 지울 때는 <code>remove()</code>를 씁니다. <code>pop(5)</code>는 5번째 인덱스를 지우라는 뜻입니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q6">
+        <span class="question-number">문제 6</span>
+        <div class="question-text"><code>pop()</code> 괄호 안에 아무것도 넣지 않으면 무엇을 삭제할까요?</div>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q6')"><span class="num-icon">1</span>맨 앞 요소</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q6')"><span class="num-icon">2</span>맨 뒤 요소</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q6')"><span class="num-icon">3</span>모든 요소</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q6')"><span class="num-icon">4</span>중간 요소</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            <code>pop()</code>의 기본 삭제 위치는 마지막(-1)입니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q7">
+        <span class="question-number">문제 7</span>
+        <div class="question-text">다음 중 파이썬의 리스트 삭제 전용 <strong>키워드</strong>는?</div>
+        <pre># 0번째 요소 삭제
+______ data[0]</pre>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q7')"><span class="num-icon">1</span>erase</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q7')"><span class="num-icon">2</span>drop</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q7')"><span class="num-icon">3</span>cut</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q7')"><span class="num-icon">4</span>del</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            <code>del</code>은 함수가 아닌 파이썬 구문(Statement) 키워드입니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q8">
+        <span class="question-number">문제 8</span>
+        <div class="question-text">리스트에서 특정 값의 <strong>위치(인덱스)</strong>를 찾는 메서드는?</div>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q8')"><span class="num-icon">1</span>find()</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q8')"><span class="num-icon">2</span>search()</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q8')"><span class="num-icon">3</span>index()</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q8')"><span class="num-icon">4</span>locate()</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            문자열에는 <code>find()</code>가 있지만, 리스트에는 <code>index()</code>만 존재합니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q9">
+        <span class="question-number">문제 9</span>
+        <div class="question-text">리스트에 포함된 특정 값의 <strong>개수</strong>를 세는 메서드는?</div>
+        <pre>fruits = ['A', 'A', 'B']
+cnt = fruits.______('A')</pre>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q9')"><span class="num-icon">1</span>count</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q9')"><span class="num-icon">2</span>length</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q9')"><span class="num-icon">3</span>sum</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q9')"><span class="num-icon">4</span>total</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            <code>count(x)</code>는 리스트 안에 x가 몇 개 들어있는지 정수로 반환합니다.
+        </div>
+    </div>
+
+    <div class="quiz-card" id="q10">
+        <span class="question-number">문제 10</span>
+        <div class="question-text">리스트의 모든 요소를 지우고 <strong>빈 리스트</strong> <code>[]</code>로 만드는 메서드는?</div>
+        <div class="options-grid">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q10')"><span class="num-icon">1</span>delete_all()</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q10')"><span class="num-icon">2</span>empty()</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q10')"><span class="num-icon">3</span>clear()</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q10')"><span class="num-icon">4</span>reset()</button>
+        </div>
+        <div class="explanation-box">
+            <div class="explanation-title">💡 해설</div>
+            <code>clear()</code>를 사용하면 리스트 내부를 깨끗하게 비울 수 있습니다.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function checkAnswer(btn, isCorrect, questionId) {
+        const card = document.getElementById(questionId);
+        const explanation = card.querySelector('.explanation-box');
+
+        // 버튼 초기화
+        const allBtns = card.querySelectorAll('.option-btn');
+        allBtns.forEach(b => {
+            b.classList.remove('correct', 'wrong');
+        });
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            explanation.style.display = 'block';
+        } else {
+            btn.classList.add('wrong');
+        }
+    }
+</script>
+
+</body>
+</html>

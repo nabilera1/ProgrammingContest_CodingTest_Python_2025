@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 맞추기 게임 코드 분석 퀴즈</title>
+    <style>
+        :root {
+            --primary-color: #3776AB; /* Python Blue */
+            --secondary-color: #FFD343; /* Python Yellow */
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --code-bg: #2b2b2b;
+            --code-text: #f8f8f2;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Code Block Style */
+        .code-section {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        pre { margin: 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.95rem; }
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+
+        /* Quiz Card Style */
+        .quiz-card, .essay-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .essay-card { border-left-color: var(--secondary-color); }
+
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .options { display: grid; gap: 0.8rem; }
+
+        .option-btn {
+            text-align: left;
+            padding: 12px 16px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover { background: #f0f4f8; border-color: var(--primary-color); }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+        .feedback.correct { background: #e8f5e9; color: #1b5e20; }
+        .feedback.wrong { background: #ffebee; color: #b71c1c; }
+
+        /* Essay Toggle */
+        .essay-answer {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #fff8e1;
+            border-radius: 8px;
+            border: 1px dashed #ffd54f;
+            color: #5d4037;
+        }
+
+        .toggle-btn {
+            background: var(--secondary-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>숫자 맞추기 게임 코드 분석</h1>
+        <p>아래 코드를 읽고 퀴즈를 풀어보세요.</p>
+    </header>
+
+    <div class="code-section">
+<pre>
+<span class="keyword">import</span> random  <span class="comment"># 랜덤한 숫자를 뽑기 위해 모듈을 가져옵니다.</span>
+
+<span class="comment"># 1부터 100 사이의 난수(정답)를 하나 생성합니다.</span>
+answer = random.randint(1, 100)
+count = 0  <span class="comment"># 시도 횟수를 세기 위한 변수</span>
+
+<span class="function">print</span>(<span class="string">"=== [Level 1] 숫자 맞추기 게임 (1~100) ==="</span>)
+
+<span class="keyword">while</span> <span class="keyword">True</span>:  <span class="comment"># 정답을 맞출 때까지 무한 반복합니다.</span>
+    <span class="comment"># input()은 문자열로 입력을 받으므로 int()를 사용해 정수로 바꿔줍니다.</span>
+    guess = <span class="function">int</span>(<span class="function">input</span>(<span class="string">"숫자를 입력하세요: "</span>))
+    count = count + 1  <span class="comment"># 시도 횟수 1 증가</span>
+
+    <span class="keyword">if</span> guess == answer:  <span class="comment"># 정답을 맞춘 경우</span>
+        <span class="function">print</span>(<span class="string">"정답입니다!"</span>)
+        <span class="function">print</span>(count, <span class="string">"번 만에 맞췄네요."</span>)
+        <span class="keyword">break</span>  <span class="comment"># 반복문을 탈출하여 게임을 종료합니다.</span>
+
+    <span class="keyword">elif</span> guess > answer:  <span class="comment"># 입력한 값이 정답보다 클 경우</span>
+        <span class="function">print</span>(<span class="string">"더 작은 숫자입니다 (Down)"</span>)
+
+    <span class="keyword">else</span>:  <span class="comment"># 입력한 값이 정답보다 작을 경우</span>
+        <span class="function">print</span>(<span class="string">"더 큰 숫자입니다 (Up)"</span>)
+</pre>
+    </div>
+
+    <h2>🧐 코드 이해도 점검 (5문제)</h2>
+    <div id="quiz-container"></div>
+
+    <h2 style="margin-top: 3rem;">✍️ 심화 서술형 과제 (2문제)</h2>
+
+    <div class="essay-card">
+        <div class="question-title">과제 1. 논리 흐름 설명하기</div>
+        <p>위 코드에서 <code>elif guess > answer:</code> 구문이 실행될 때 출력되는 메시지는 무엇이며, 이것은 플레이어에게 어떤 힌트를 주기 위함인가요?</p>
+        <button class="toggle-btn" onclick="toggleEssay(1)">정답 및 해설 보기</button>
+        <div class="essay-answer" id="essay-1">
+            <strong>정답:</strong> "더 작은 숫자입니다 (Down)"가 출력됩니다.<br>
+            <strong>해설:</strong> 사용자가 입력한 값(guess)이 정답(answer)보다 크다는 뜻이므로, 정답을 맞추기 위해서는 더 작은 숫자를 입력해야 한다는 힌트(Down)를 주는 것입니다.
+        </div>
+    </div>
+
+    <div class="essay-card">
+        <div class="question-title">과제 2. 에러 예측하기</div>
+        <p>만약 사용자가 숫자가 아닌 <strong>'가나다'</strong>나 <strong>'abc'</strong> 같은 문자를 입력하면 프로그램은 어떻게 될까요? (힌트: 10번째 줄)</p>
+        <button class="toggle-btn" onclick="toggleEssay(2)">정답 및 해설 보기</button>
+        <div class="essay-answer" id="essay-2">
+            <strong>정답:</strong> <code>ValueError</code>가 발생하며 프로그램이 강제로 종료됩니다.<br>
+            <strong>해설:</strong> <code>int()</code> 함수는 숫자 형태의 문자열만 정수로 바꿀 수 있습니다. 한글이나 영어 문자가 들어오면 정수로 변환할 수 없어 에러가 발생합니다. (이를 해결하려면 Level 3에서 배우는 예외 처리가 필요합니다.)
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "위 코드에서 <code>random.randint(1, 100)</code>의 역할은 무엇인가요?",
+            options: ["1부터 100까지 순서대로 숫자를 출력한다.", "1부터 100 사이의 무작위 정수(난수) 하나를 생성한다.", "사용자에게 1부터 100 사이의 숫자를 입력받는다.", "게임을 100번 반복한다."],
+            a: 1,
+            desc: "random 모듈의 randint 함수는 지정된 범위 내의 임의의 정수를 생성하여 정답(answer) 변수에 저장합니다."
+        },
+        {
+            q: "코드 10번째 줄에서 <code>int(input(...))</code>를 사용한 이유는 무엇인가요?",
+            options: ["숫자를 문자열로 바꾸기 위해", "소수점을 표현하기 위해", "input()은 기본적으로 문자열을 받으므로, 계산을 위해 정수로 변환해야 해서", "랜덤한 숫자를 만들기 위해"],
+            a: 2,
+            desc: "input() 함수로 받은 데이터는 문자열(String) 취급을 받습니다. 숫자 크기 비교를 하려면 int()를 써서 정수형으로 바꿔야 합니다."
+        },
+        {
+            q: "이 게임은 언제 종료되나요? (반복문을 탈출하는 조건)",
+            options: ["사용자가 숫자를 입력했을 때", "count가 10이 되었을 때", "입력한 값(guess)과 정답(answer)이 같을 때", "더 작은 숫자를 입력했을 때"],
+            a: 2,
+            desc: "<code>if guess == answer:</code> 조건이 참일 때 <code>break</code> 문이 실행되어 반복문을 탈출하고 게임이 종료됩니다."
+        },
+        {
+            q: "변수 <code>count</code>의 역할은 무엇인가요?",
+            options: ["정답 숫자를 저장한다.", "사용자가 몇 번 만에 맞췄는지 시도 횟수를 센다.", "게임의 난이도를 설정한다.", "제한 시간을 잰다."],
+            a: 1,
+            desc: "반복문이 돌 때마다 <code>count = count + 1</code>을 통해 시도 횟수를 1씩 증가시켜 기록합니다."
+        },
+        {
+            q: "다음 중 코드에 사용된 문법이 <u>아닌</u> 것은?",
+            options: ["while 반복문", "if-elif-else 조건문", "break 제어문", "for 반복문"],
+            a: 3,
+            desc: "이 코드에서는 무한 반복을 위해 <code>while True</code>를 사용했습니다. <code>for</code> 문은 사용되지 않았습니다."
+        }
+    ];
+
+    const quizContainer = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-card';
+
+        let buttons = '';
+        item.options.forEach((opt, idx) => {
+            buttons += `<button class="option-btn" onclick="checkAnswer(${index}, ${idx}, this)">${idx+1}. ${opt}</button>`;
+        });
+
+        div.innerHTML = `
+            <div class="question-title">Q${index+1}. ${item.q}</div>
+            <div class="options">${buttons}</div>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        quizContainer.appendChild(div);
+    });
+
+    function checkAnswer(qIdx, userChoice, btn) {
+        const feedback = document.getElementById(`feedback-${qIdx}`);
+        const q = questions[qIdx];
+        const allBtns = btn.parentElement.querySelectorAll('button');
+
+        allBtns.forEach(b => b.disabled = true); // 중복 클릭 방지
+
+        if(userChoice === q.a) {
+            feedback.innerHTML = `⭕ 정답입니다!<br>${q.desc}`;
+            feedback.className = "feedback correct";
+            btn.style.background = "#e8f5e9";
+            btn.style.borderColor = "#2e7d32";
+        } else {
+            feedback.innerHTML = `❌ 오답입니다. 정답은 ${q.a+1}번입니다.<br>${q.desc}`;
+            feedback.className = "feedback wrong";
+            btn.style.background = "#ffebee";
+            btn.style.borderColor = "#b71c1c";
+            allBtns[q.a].style.background = "#e8f5e9"; // 정답 표시
+        }
+        feedback.style.display = "block";
+    }
+
+    function toggleEssay(id) {
+        const answerDiv = document.getElementById(`essay-${id}`);
+        if (answerDiv.style.display === "block") {
+            answerDiv.style.display = "none";
+        } else {
+            answerDiv.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

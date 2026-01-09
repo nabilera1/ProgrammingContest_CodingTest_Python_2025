@@ -1,0 +1,13 @@
+cd "C:\Users\user\PycharmProjects\ProgrammingContest_CodingTest_Python_2025\2025 정보과학\02 텍스트 게임 코드\RPG"
+
+한글, 공백이 있는 경우 ""를 활용
+
+python 던 까지 치고 Tab 키를 누르면 자동완성됩니다
+
+만약 실행했을 때 한글이 깨져서 나온다면, 터미널에서 인코딩을 UTF-8로 변경해야 할 수 있습니다.
+실행 전에 아래 명령어를 입력해보세요.
+
+chcp 65001
+
+또는
+python "C:\Users\user\PycharmProjects\ProgrammingContest_CodingTest_Python_2025\2025 정보과학\02 텍스트 게임 코드\RPG\던전.py"

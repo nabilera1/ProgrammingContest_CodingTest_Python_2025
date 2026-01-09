@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 Random 모듈 마스터</title>
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #818CF8;
+            --bg-color: #F3F4F6;
+            --text-main: #1F2937;
+            --text-sub: #4B5563;
+            --code-bg: #1E293B;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Pretendard", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-sub);
+        }
+
+        /* 카드 스타일 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        h3 {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        h3::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 24px;
+            background-color: var(--secondary);
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+
+        /* 코드 블록 스타일 (맥북 터미널 느낌) */
+        pre {
+            background-color: var(--code-bg);
+            color: #E2E8F0;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-top: 15px;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        /* 코드 상단 장식 (신호등) */
+        pre::before {
+            content: "● ● ●";
+            font-size: 10px;
+            color: #4b5563;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        code {
+            font-family: inherit;
+        }
+
+        .comment { color: #94A3B8; font-style: italic; }
+        .keyword { color: #C678DD; } /* import, def */
+        .func { color: #61AFEF; }    /* print, random */
+        .string { color: #98C379; }  /* "문자열" */
+        .num { color: #D19A66; }     /* 숫자 */
+
+        /* 리스트 및 기타 */
+        ul, ol {
+            padding-left: 25px;
+            margin-bottom: 15px;
+            color: var(--text-sub);
+        }
+
+        li { margin-bottom: 8px; }
+
+        .tag {
+            background-color: #EEF2FF;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🎲 파이썬 Random 모듈 정복</h1>
+            <p class="subtitle">초보자를 위한 핵심 기능 완벽 가이드</p>
+        </header>
+
+        <section class="card">
+            <h2>1. 준비 운동</h2>
+            <p>랜덤 기능을 사용하려면 가장 먼저 아래 주문을 코드 맨 윗줄에 적어야 합니다.</p>
+            <pre><code><span class="keyword">import</span> random</code></pre>
+        </section>
+
+        <section class="card">
+            <h2>2. 핵심 함수 BEST 4 <span class="tag">Must Know</span></h2>
+
+            <h3>① random.randint(a, b)</h3>
+            <ul>
+                <li><strong>기능:</strong> a부터 b까지의 정수 중 하나를 랜덤으로 뽑습니다.</li>
+                <li><strong>주의:</strong> b 숫자도 포함됩니다! (1, 6이면 6도 나옴)</li>
+            </ul>
+            <pre><code><span class="comment"># 주사위 굴리기</span>
+dice = random.<span class="func">randint</span>(<span class="num">1</span>, <span class="num">6</span>)
+<span class="func">print</span>(f<span class="string">"주사위 눈: {dice}"</span>)</code></pre>
+
+            <h3>② random.choice(리스트)</h3>
+            <ul>
+                <li><strong>기능:</strong> 리스트 안의 항목 중 하나를 무작위로 선택합니다.</li>
+                <li><strong>활용:</strong> 점심 메뉴 고르기, 당첨자 한 명 뽑기</li>
+            </ul>
+            <pre><code>menus = [<span class="string">"라면"</span>, <span class="string">"김밥"</span>, <span class="string">"돈까스"</span>]
+pick = random.<span class="func">choice</span>(menus)
+<span class="func">print</span>(pick)</code></pre>
+
+            <h3>③ random.shuffle(리스트)</h3>
+            <ul>
+                <li><strong>기능:</strong> 리스트의 순서를 마구 뒤섞습니다.</li>
+                <li><strong>특징:</strong> 원본 리스트 자체가 변합니다.</li>
+            </ul>
+            <pre><code>songs = [<span class="string">"아이유"</span>, <span class="string">"BTS"</span>, <span class="string">"뉴진스"</span>]
+random.<span class="func">shuffle</span>(songs)
+<span class="func">print</span>(songs)</code></pre>
+
+             <h3>④ random.sample(리스트, n개)</h3>
+            <ul>
+                <li><strong>기능:</strong> 중복 없이 n개를 뽑습니다.</li>
+                <li><strong>활용:</strong> 로또 번호 추천</li>
+            </ul>
+            <pre><code>nums = <span class="func">range</span>(<span class="num">1</span>, <span class="num">46</span>)
+lotto = random.<span class="func">sample</span>(nums, <span class="num">6</span>)
+<span class="func">print</span>(lotto)</code></pre>
+        </section>
+
+        <section class="card">
+            <h2>3. 실전 예제: Up & Down 게임 🎮</h2>
+            <p>컴퓨터가 생각한 숫자(1~100)를 맞추는 게임입니다.</p>
+            <pre><code><span class="keyword">import</span> random
+
+secret = random.<span class="func">randint</span>(<span class="num">1</span>, <span class="num">100</span>)
+
+<span class="keyword">while True</span>:
+    user = <span class="func">int</span>(<span class="func">input</span>(<span class="string">"숫자 입력: "</span>))
+
+    <span class="keyword">if</span> user < secret:
+        <span class="func">print</span>(<span class="string">"Up!"</span>)
+    <span class="keyword">elif</span> user > secret:
+        <span class="func">print</span>(<span class="string">"Down!"</span>)
+    <span class="keyword">else</span>:
+        <span class="func">print</span>(<span class="string">"정답입니다! 🎉"</span>)
+        <span class="keyword">break</span></code></pre>
+        </section>
+
+        <div class="footer">
+            Made with Python & Gemini
+        </div>
+    </div>
+
+</body>
+</html>

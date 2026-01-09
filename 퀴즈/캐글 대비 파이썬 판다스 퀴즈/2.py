@@ -152,7 +152,7 @@ problems = [
     {
         "title": "문제 13: 시계열 데이터 (Datetime)",
         "desc": "'Date' 컬럼을 datetime으로 변환하고 'Year'를 추출하시오.",
-        "setup": "df = pd.DataFrame({'Date': ['2023-01-01', '2024-03-15', '2023-12-31']})",
+        "setup": "df = pd.DataFrame({'Date': ['2023-01-01', '2024-03 파일 입출력-15', '2023-12-31']})",
         "hint": "pd.to_datetime() 변환 후 **.dt** 접근자를 사용하세요.",
         "solution": "df['Date'] = pd.to_datetime(df['Date'])\ndf['Year'] = df['Date'].dt.year\nprint(df)",
         "explanation": ".dt 접근자를 통해 년, 월, 일, 요일 등 날짜 정보를 쉽게 추출할 수 있습니다."

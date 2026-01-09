@@ -45,6 +45,6 @@ M = int(input())
 mydict = dict()
 for _ in range(M):
     a, b = map(int, input().split())
-    if not mydict.get((a, b), 0): #같은 질문일 경우 재계산을 하지 않기 위해 딕셔너리 자료형 사용
+    if not mydict.get((a, b), 0): #같은 질문일 경우 재계산을 하지 않기 위해 01 딕셔너리 자료형 사용
         mydict[(a, b)] = mydict[(b, a)] = excuteLCA(a, b)
     print(mydict.get((a, b)))
