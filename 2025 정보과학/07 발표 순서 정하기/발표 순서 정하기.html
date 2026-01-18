@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스릴만점 발표 순서 추첨기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* 전체적인 분위기를 조금 더 어둡고 집중되게 변경 */
+        :root {
+            --primary-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --highlight: #0f3460;
+            --accent: #e94560;
+            --text-light: #edf2f4;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: radial-gradient(circle at center, var(--highlight) 0%, var(--primary-bg) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        p.subtitle {
+            margin-top: 0;
+            color: #aab2c8;
+            margin-bottom: 30px;
+        }
+
+        /* 버튼 스타일 */
+        .draw-btn {
+            background: linear-gradient(90deg, var(--accent), #ff6b81);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+            outline: none;
+            letter-spacing: 1px;
+        }
+
+        .draw-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.6);
+        }
+
+        .draw-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 결과 영역 그리드 */
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        /* 번호 카드 기본 스타일 */
+        .number-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rank {
+            font-size: 0.8rem;
+            color: #8d99ae;
+            margin-bottom: 5px;
+        }
+
+        .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 셔플 중일 때 스타일 (흐릿하게) */
+        .number-card.shuffling .number {
+            color: rgba(255, 255, 255, 0.3);
+            filter: blur(1px);
+            transform: scale(0.9);
+        }
+
+        /* 극적인 공개 애니메이션 */
+        @keyframes dramaticReveal {
+            0% { transform: scale(0.8); opacity: 0.5; background: var(--accent); }
+            50% { transform: scale(1.2); opacity: 1; background: white; color: var(--primary-bg); box-shadow: 0 0 20px white; }
+            100% { transform: scale(1.0); opacity: 1; }
+        }
+
+        .number-card.revealed {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.2), rgba(22, 33, 62, 0.8));
+            animation: dramaticReveal 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .number-card.revealed .number {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        .number-card.revealed .rank {
+             color: var(--text-light);
+        }
+
+        @media (max-width: 480px) {
+            .result-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .container {
+                padding: 20px;
+            }
+            .number {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚡ 스릴만점 발표 순서</h1>
+        <p class="subtitle">운명의 시간입니다. 14명의 순서가 결정됩니다.</p>
+
+        <button class="draw-btn" onclick="startDramaticDraw()">운명 결정하기 START</button>
+
+        <div class="result-grid" id="resultArea">
+            </div>
+    </div>
+
+    <script>
+        const totalMembers = 14;
+        let shuffleIntervals = []; // 각 카드의 셔플 타이머를 저장할 배열
+
+        // 페이지 로드 시 빈 카드 미리 생성
+        window.onload = () => {
+            const resultArea = document.getElementById('resultArea');
+            for (let i = 1; i <= totalMembers; i++) {
+                const card = document.createElement('div');
+                card.className = 'number-card';
+                card.id = `card-${i-1}`;
+                card.innerHTML = `
+                    <div class="rank">${i}순위</div>
+                    <div class="number">?</div>
+                `;
+                resultArea.appendChild(card);
+            }
+        };
+
+        // 랜덤 숫자 생성 헬퍼 함수
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        async function startDramaticDraw() {
+            const btn = document.querySelector('.draw-btn');
+            btn.disabled = true;
+            btn.textContent = "순서 정하는 중...";
+
+            // 1. 실제 결과 배열 생성 (Fisher-Yates Shuffle)
+            let finalNumbers = Array.from({length: totalMembers}, (_, i) => i + 1);
+            for (let i = finalNumbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [finalNumbers[i], finalNumbers[j]] = [finalNumbers[j], finalNumbers[i]];
+            }
+
+            // 2. 모든 카드를 '셔플 상태'로 만들고 가짜 숫자를 빠르게 보여줌
+            shuffleIntervals.forEach(clearInterval); // 기존 타이머 제거
+            shuffleIntervals = [];
+
+            for (let i = 0; i < totalMembers; i++) {
+                const card = document.getElementById(`card-${i}`);
+                const numDiv = card.querySelector('.number');
+                card.classList.remove('revealed');
+                card.classList.add('shuffling');
+
+                // 50ms마다 랜덤 숫자로 변경하는 타이머 시작
+                const intervalId = setInterval(() => {
+                    numDiv.textContent = getRandomInt(1, totalMembers);
+                }, 50);
+                shuffleIntervals.push(intervalId);
+            }
+
+            // 3. 긴장감을 위해 잠시 대기 후 하나씩 공개 시작
+            await new Promise(r => setTimeout(r, 1000));
+
+            // 순차적 공개 루프
+            for (let i = 0; i < totalMembers; i++) {
+                await revealCard(i, finalNumbers[i]);
+
+                // 다음 공개까지 걸리는 시간 (갈수록 조금 빨라지거나 일정하게 유지하여 긴장감 조절)
+                // 여기서는 극적인 느낌을 위해 다소 긴 시간을 줍니다 (1.2초)
+                if (i < totalMembers - 1) {
+                     await new Promise(r => setTimeout(r, 1200));
+                }
+            }
+
+            // 완료
+            btn.textContent = "추첨 완료! 다시 하기";
+            btn.disabled = false;
+        }
+
+        // 개별 카드 공개 함수
+        function revealCard(index, finalNumber) {
+            return new Promise(resolve => {
+                const card = document.getElementById(`card-${index}`);
+                const numDiv = card.querySelector('.number');
+
+                // 해당 카드의 셔플 타이머 정지
+                clearInterval(shuffleIntervals[index]);
+
+                // 최종 결과 입력 및 스타일 적용
+                numDiv.textContent = finalNumber;
+                card.classList.remove('shuffling');
+
+                // 약간의 딜레이 후 클래스 추가로 애니메이션 발동 (브라우저 리페인트 고려)
+                setTimeout(() => {
+                     card.classList.add('revealed');
+                     // 소리 효과를 넣고 싶다면 여기서 playSound();
+                     resolve();
+                }, 50);
+            });
+        }
+    </script>
+</body>
+</html>

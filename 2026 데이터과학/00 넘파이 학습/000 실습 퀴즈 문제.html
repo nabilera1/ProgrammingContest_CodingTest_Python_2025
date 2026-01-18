@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumPy 실전 코딩 테스트</title>
+    <style>
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; color: #333; }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        .intro { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .problem-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid #3498db; }
+        .problem-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #2980b9; }
+        .scenario { background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 15px; font-size: 0.95em; }
+        .code-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: monospace; font-size: 14px; background-color: #fafafa; margin-bottom: 10px; resize: vertical; }
+        .btn-toggle { background-color: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .btn-toggle:hover { background-color: #2980b9; }
+        .solution { display: none; margin-top: 15px; background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; }
+        .hint { font-size: 0.9em; color: #7f8c8d; margin-bottom: 10px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 NumPy 실전 응용 문제 (5문항)</h1>
+
+    <div class="intro">
+        <h3>💡 학습 안내</h3>
+        <p>각 문제의 <strong>[시나리오]</strong>를 읽고, 해결하기 위한 NumPy 코드를 상상하거나 직접 입력해 보세요.<br>
+        고민이 끝났다면 <strong>[정답 코드 확인]</strong> 버튼을 눌러 모범 답안과 비교해 보세요.</p>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-title">Q1. 월별 매출 데이터 구조 만들기</div>
+        <div class="scenario">
+            <strong>상황:</strong> 당신은 편의점 점장입니다. 1월부터 12월까지의 매출 데이터를 분석하려고 합니다.<br>
+            <strong>목표:</strong> 0부터 11까지의 숫자를 생성한 뒤, 이를 <strong>(3행 4열)</strong> 모양의 배열로 변환하여 분기별(행) 데이터로 만드세요.
+        </div>
+        <div class="hint">Tip: arange()로 만들고 reshape()를 사용하세요.</div>
+        <textarea class="code-area" placeholder="여기에 코드를 작성해 보세요..."></textarea>
+        <button class="btn-toggle" onclick="toggleSolution(1)">정답 코드 확인</button>
+        <div id="sol-1" class="solution">import numpy as np
+
+# 1. 0~11 데이터 생성
+data = np.arange(12)
+
+# 2. 3행 4열로 변환 (3개 분기, 각 4개월씩이라고 가정)
+sales_data = data.reshape(3, 4)
+
+print(sales_data)</div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-title">Q2. 특정 분기의 매출만 조회하기 (슬라이싱)</div>
+        <div class="scenario">
+            <strong>상황:</strong> 위에서 만든 <code>sales_data</code> (3행 4열)에서 <strong>'2번째 분기(2행)'의 모든 데이터</strong>만 따로 떼어서 보고 싶습니다.<br>
+            <strong>목표:</strong> 인덱싱/슬라이싱을 사용하여 2번째 행 전체를 출력하는 코드를 작성하세요.
+        </div>
+        <div class="hint">Tip: 행 인덱스는 0부터 시작하므로 2번째 행은 인덱스 1입니다.</div>
+        <textarea class="code-area" placeholder="여기에 코드를 작성해 보세요..."></textarea>
+        <button class="btn-toggle" onclick="toggleSolution(2)">정답 코드 확인</button>
+        <div id="sol-2" class="solution"># 2번째 행(인덱스 1), 모든 열(:) 가져오기
+q2_sales = sales_data[1, :]
+
+print(q2_sales)</div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-title">Q3. 전 지점 매출 인상 시뮬레이션 (브로드캐스팅)</div>
+        <div class="scenario">
+            <strong>상황:</strong> 물가 상승으로 인해 모든 달의 매출 목표를 <strong>10%씩 상향 조정</strong>하려고 합니다.<br>
+            <strong>목표:</strong> <code>sales_data</code>의 모든 값에 1.1을 곱하여 새로운 목표 매출 배열을 만드세요. (반복문 사용 금지)
+        </div>
+        <div class="hint">Tip: 넘파이 배열에 숫자를 직접 곱하면 모든 원소에 적용됩니다.</div>
+        <textarea class="code-area" placeholder="여기에 코드를 작성해 보세요..."></textarea>
+        <button class="btn-toggle" onclick="toggleSolution(3)">정답 코드 확인</button>
+        <div id="sol-3" class="solution"># 모든 원소에 1.1 곱하기 (브로드캐스팅)
+target_sales = sales_data * 1.1
+
+print(target_sales)</div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-title">Q4. 목표 달성 실패달 찾기 (불리언 인덱싱)</div>
+        <div class="scenario">
+            <strong>상황:</strong> 실제 매출이 담긴 배열 <code>real_sales</code>가 있습니다.<br>
+            <code>real_sales = np.array([120, 80, 95, 150, 70])</code><br>
+            <strong>목표:</strong> 매출이 <strong>100 미만</strong>인 달의 데이터만 추출하세요.
+        </div>
+        <div class="hint">Tip: 조건문(array < 100)을 인덱스로 사용하세요.</div>
+        <textarea class="code-area" placeholder="여기에 코드를 작성해 보세요..."></textarea>
+        <button class="btn-toggle" onclick="toggleSolution(4)">정답 코드 확인</button>
+        <div id="sol-4" class="solution">real_sales = np.array([120, 80, 95, 150, 70])
+
+# 100 미만인 값만 필터링
+bad_performance = real_sales[real_sales < 100]
+
+print("저조한 매출:", bad_performance)</div>
+    </div>
+
+    <div class="problem-card">
+        <div class="problem-title">Q5. 데이터 분석 리포트 (통계 함수)</div>
+        <div class="scenario">
+            <strong>상황:</strong> 1년치 매출 데이터 <code>yearly_sales = np.array([150, 200, 180, 300, 120])</code>가 있습니다.<br>
+            <strong>목표:</strong> 이 데이터의 <strong>평균 매출</strong>과 <strong>최대 매출</strong>이 얼마인지 구하세요.
+        </div>
+        <div class="hint">Tip: np.mean()과 np.max()를 활용하세요.</div>
+        <textarea class="code-area" placeholder="여기에 코드를 작성해 보세요..."></textarea>
+        <button class="btn-toggle" onclick="toggleSolution(5)">정답 코드 확인</button>
+        <div id="sol-5" class="solution">yearly_sales = np.array([150, 200, 180, 300, 120])
+
+avg_sales = np.mean(yearly_sales)
+max_sales = np.max(yearly_sales)
+
+print(f"평균 매출: {avg_sales}")
+print(f"최고 매출: {max_sales}")</div>
+    </div>
+
+    <script>
+        function toggleSolution(id) {
+            var x = document.getElementById("sol-" + id);
+            var btn = document.querySelector(`button[onclick="toggleSolution(${id})"]`);
+
+            if (x.style.display === "block") {
+                x.style.display = "none";
+                btn.textContent = "정답 코드 확인";
+                btn.style.backgroundColor = "#3498db";
+            } else {
+                x.style.display = "block";
+                btn.textContent = "정답 숨기기";
+                btn.style.backgroundColor = "#e74c3c";
+            }
+        }
+    </script>
+
+</body>
+</html>

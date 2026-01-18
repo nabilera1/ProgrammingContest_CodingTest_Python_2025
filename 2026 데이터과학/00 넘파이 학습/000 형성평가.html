@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초보자를 위한 NumPy 핵심 퀴즈</title>
+    <style>
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        .quiz-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 15px; }
+        .question { margin-bottom: 25px; padding: 15px; background: #eef2f3; border-radius: 8px; }
+        .code-block { background: #2d3436; color: #dfe6e9; padding: 10px; border-radius: 5px; font-family: monospace; margin: 10px 0; }
+        .options label { display: block; margin: 8px 0; cursor: pointer; padding: 5px; }
+        .options label:hover { background: #dcede6; border-radius: 5px; }
+        button { background-color: #3498db; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; display: block; margin: 20px auto; transition: 0.3s; }
+        button:hover { background-color: #2980b9; }
+        #result { text-align: center; font-weight: bold; margin-top: 20px; font-size: 1.2em; }
+        .correct { color: #27ae60; }
+        .wrong { color: #c0392b; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>🐍 NumPy 입문 퀴즈</h1>
+
+    <div class="question" id="q1">
+        <p><strong>1. NumPy 라이브러리를 불러올 때 관례적으로 사용하는 별칭(Alias)은?</strong></p>
+        <div class="code-block">import numpy as ???</div>
+        <div class="options">
+            <label><input type="radio" name="q1" value="num"> num</label>
+            <label><input type="radio" name="q1" value="py"> py</label>
+            <label><input type="radio" name="q1" value="np"> np</label>
+            <label><input type="radio" name="q1" value="nmp"> nmp</label>
+        </div>
+    </div>
+
+    <div class="question" id="q2">
+        <p><strong>2. 다음 중 0부터 9까지의 숫자를 가진 배열을 생성하는 함수는?</strong></p>
+        <div class="options">
+            <label><input type="radio" name="q2" value="np.array(10)"> np.array(10)</label>
+            <label><input type="radio" name="q2" value="np.arange(10)"> np.arange(10)</label>
+            <label><input type="radio" name="q2" value="np.zeros(10)"> np.zeros(10)</label>
+            <label><input type="radio" name="q2" value="np.range(10)"> np.range(10)</label>
+        </div>
+    </div>
+
+    <div class="question" id="q3">
+        <p><strong>3. (3행 4열) 배열을 (4행 3열)로 모양을 바꾸고 싶을 때 사용하는 메서드는?</strong></p>
+        <div class="options">
+            <label><input type="radio" name="q3" value="resize"> .resize()</label>
+            <label><input type="radio" name="q3" value="change"> .change()</label>
+            <label><input type="radio" name="q3" value="reshape"> .reshape()</label>
+            <label><input type="radio" name="q3" value="transform"> .transform()</label>
+        </div>
+    </div>
+
+    <div class="question" id="q4">
+        <p><strong>4. arr 배열에서 값이 5 이상인 것만 추출하는 '불리언 인덱싱' 문법으로 올바른 것은?</strong></p>
+        <div class="options">
+            <label><input type="radio" name="q4" value="opt1"> arr[arr > 5]</label>
+            <label><input type="radio" name="q4" value="opt2"> arr(arr > 5)</label>
+            <label><input type="radio" name="q4" value="opt3"> arr.get(> 5)</label>
+            <label><input type="radio" name="q4" value="opt4"> if arr > 5 return arr</label>
+        </div>
+    </div>
+
+    <button onclick="checkAnswers()">제출하기</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function checkAnswers() {
+        let score = 0;
+        const answers = { q1: "np", q2: "np.arange(10)", q3: "reshape", q4: "opt1" };
+        const total = 4;
+
+        // 답안 확인 로직
+        for (let q in answers) {
+            const selected = document.querySelector(`input[name="${q}"]:checked`);
+            const questionDiv = document.getElementById(q);
+
+            if (selected && selected.value === answers[q]) {
+                score++;
+                questionDiv.style.border = "2px solid #27ae60"; // 정답 초록 테두리
+            } else {
+                questionDiv.style.border = "2px solid #c0392b"; // 오답 빨간 테두리
+            }
+        }
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `총 ${total}문제 중 <span class="correct">${score}</span>문제 맞혔습니다!`;
+
+        if(score === total) {
+            resultDiv.innerHTML += "<br>🎉 완벽합니다! 데이터 과학자가 될 자질이 보이네요!";
+        }
+    }
+</script>
+
+</body>
+</html>

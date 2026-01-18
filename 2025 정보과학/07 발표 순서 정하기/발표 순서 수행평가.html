@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>발표 순서 랜덤 추첨기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* 기본 설정 및 배경 */
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --accent-color: #ff4b1f;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        /* 메인 컨테이너 (글래스모피즘 효과) */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            margin-top: 0;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* 버튼 스타일 */
+        .draw-btn {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+            outline: none;
+        }
+
+        .draw-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 117, 252, 0.6);
+        }
+
+        .draw-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* 결과 영역 그리드 */
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            min-height: 200px; /* 공간 확보 */
+        }
+
+        /* 번호 카드 스타일 */
+        .number-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; /* 애니메이션을 위해 숨김 */
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .number-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .rank {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* 첫 번째 순서 강조 */
+        .number-card:first-child {
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            color: white;
+        }
+        .number-card:first-child .rank,
+        .number-card:first-child .number {
+            color: white;
+        }
+
+        @media (max-width: 480px) {
+            .result-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📢 발표 순서 추첨</h1>
+        <p class="subtitle">1번부터 14번까지 랜덤으로 순서를 정합니다.</p>
+
+        <button class="draw-btn" onclick="startDraw()">순서 섞기 & 추첨</button>
+
+        <div class="result-grid" id="resultArea">
+            </div>
+    </div>
+
+    <script>
+        function startDraw() {
+            const resultArea = document.getElementById('resultArea');
+            const btn = document.querySelector('.draw-btn');
+
+            // 초기화
+            resultArea.innerHTML = '';
+            btn.disabled = true;
+            btn.textContent = "추첨 중...";
+
+            // 1부터 14까지 배열 생성
+            let numbers = Array.from({length: 14}, (_, i) => i + 1);
+
+            // Fisher-Yates Shuffle 알고리즘 (랜덤 섞기)
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+
+            // 결과 렌더링 (순차적 애니메이션 적용)
+            numbers.forEach((num, index) => {
+                const card = document.createElement('div');
+                card.className = 'number-card';
+
+                // 순서(Rank)와 번호(Number) 표시
+                card.innerHTML = `
+                    <div class="rank">${index + 1}번째</div>
+                    <div class="number">${num}번</div>
+                `;
+
+                resultArea.appendChild(card);
+
+                // 딜레이를 주어 하나씩 나타나게 함
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 100); // 0.1초 간격으로 등장
+            });
+
+            // 완료 후 버튼 복구
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = "다시 추첨하기";
+            }, numbers.length * 100 + 200);
+        }
+
+        // 페이지 로드 시 안내 문구
+        window.onload = () => {
+            const resultArea = document.getElementById('resultArea');
+            resultArea.innerHTML = '<div style="grid-column: 1/-1; color: #aaa; padding: 20px;">버튼을 눌러 순서를 정해주세요.</div>';
+        }
+    </script>
+</body>
+</html>
